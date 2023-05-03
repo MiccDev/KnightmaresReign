@@ -1,8 +1,0 @@
-player:
-  join: "&7Welcome &a{player} &7to the adventure."
-  leave: "&7Goodbye &a{player}&7. See you again soon."
-  
-discord:
-  enable: false
-  join: "{player} just joined the server."
-  leave: "{player} just leave the server."
