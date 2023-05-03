@@ -12,7 +12,9 @@ public enum Items implements Keyed {
 	NONE("none", Material.AIR),
 	TEST_SWORD("test_sword", Material.IRON_SWORD),
 	MAGIC_WEAPON("magic_weapon", Material.STICK),
-	SENOR_BONKERS("senor_bonkers", Material.STICK);
+	SENOR_BONKERS("senor_bonkers", Material.STICK),
+
+	DATA_BOOK("data_book", Material.BOOK);
 	
 	private final NamespacedKey key;
 	private final Material material;

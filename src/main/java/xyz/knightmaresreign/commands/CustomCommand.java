@@ -42,6 +42,25 @@ public abstract class CustomCommand implements CommandExecutor, TabCompleter {
 				return false;
 			}
 		});
+
+		createCommand("getbook", new CommandRunnable() {
+			@Override
+			public boolean run(CommandSender sender, Command command, String label, String[] args) {
+				if(!(sender instanceof Player)) {
+					sender.sendMessage(plugin.toComponent("&4Only players can use this command."));
+					return true;
+				}
+
+				Player player = (Player) sender;
+
+				if(!player.hasPermission("knightmaresreign.admin.bonkers")) {
+					player.sendMessage(plugin.toComponent("&4You do not have permission to use this command."));
+					return true;
+				}
+				player.getInventory().addItem(CustomItem.DATA_BOOK.getItem());
+				return false;
+			}
+		});
 	}
 	
 	public static void createCommand(String name, CommandRunnable commandRunner, TabListRunnable tablistRunner) {

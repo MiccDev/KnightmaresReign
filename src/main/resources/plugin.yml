@@ -6,3 +6,5 @@ api-version: 1.19
 commands:
   getbonk:
     description: Gives the player a test item.
+  getbook:
+    description: BOOK

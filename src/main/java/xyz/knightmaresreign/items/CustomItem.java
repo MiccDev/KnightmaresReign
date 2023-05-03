@@ -25,6 +25,8 @@ public class CustomItem {
 			.setData(new WeaponData(50, 10).setName("&7Magic Weapon"));
 	public static CustomItem SENOR_BONKERS = new CustomItem(Items.SENOR_BONKERS)
 			.setData(new WeaponData(250000).setName("&o&bSeñor Bonkers"));
+	public static CustomItem DATA_BOOK = new CustomItem(Items.DATA_BOOK)
+			.setData(new ItemData().setName("&eData Book"));
 	
 	
 	public static boolean isCustomItem(ItemStack item) {
