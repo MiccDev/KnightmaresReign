@@ -19,6 +19,7 @@ import java.util.concurrent.Callable;
 
 public class Menu {
     private final Inventory inventory;
+    private @Nullable Player player;
     private final Hashtable<Integer, MenuItem> menuItems = new Hashtable<>();
 
     public Menu(InventoryType inventoryType, @Nullable String name) {
@@ -27,6 +28,15 @@ public class Menu {
         } else {
             inventory = Bukkit.createInventory(null, inventoryType, Component.text(name));
         }
+    }
+
+    public Menu(InventoryType inventoryType, @Nullable String name, Player player) {
+        if (Objects.isNull(name)) {
+            inventory = Bukkit.createInventory(null, inventoryType);
+        } else {
+            inventory = Bukkit.createInventory(null, inventoryType, Component.text(name));
+        }
+        this.player = player;
 
     }
 
@@ -49,22 +59,11 @@ public class Menu {
     public static Menu DataMenu(Player player) {
         Menu menu = new Menu(InventoryType.CHEST, "Data Menu");
 
-        Double defense = KnightmaresReign.getInstance().playerManager.getPlayerData(player).defense;
-        List<String> defenselst = new ArrayList<>();
-        defenselst.add(String.valueOf(defense));
-
-        menu.addItem(MenuItem.makeItemStack(Material.DIAMOND_CHESTPLATE, "Defense", defenselst), 0, () -> {
-            player.sendMessage("Click on Defense");
-        });
-
-        Double strength = KnightmaresReign.getInstance().playerManager.getPlayerData(player).strength;
-        List<String> strengthlst = new ArrayList<>();
-        strengthlst.add(String.valueOf(strength));
-
-        menu.addItem(MenuItem.makeItemStack(Material.IRON_SWORD, "Strength", strengthlst), 1, () -> {
-            player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL));
-        });
-
         return menu;
+    }
+
+    public boolean isPlayer(Player player) {
+        if(Objects.isNull(this.player)) return true;
+        return player.equals(this.player);
     }
 }

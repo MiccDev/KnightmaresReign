@@ -1,11 +1,13 @@
 package xyz.knightmaresreign.menus;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import xyz.knightmaresreign.menus.menus.DataMenu;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 public class MenuManager {
-    private static Hashtable<Inventory, Menu> OpenMenuList= new Hashtable<>();
+    private static HashMap<Inventory, Menu> OpenMenuList= new HashMap<>();
 
     public static Menu getMenuFromInventory(Inventory inventory) {
         return OpenMenuList.get(inventory);
@@ -23,5 +25,14 @@ public class MenuManager {
         if (isInventoryOpenMenu(inventory)) {
             OpenMenuList.remove(inventory);
         }
+    }
+
+    public static HashMap<Inventory, Menu> getHashMap() {
+        return OpenMenuList;
+    }
+
+    public static void OpenMenu(Menu menu, Player player) {
+        MenuManager.addMenuToOpenList(menu);
+        player.openInventory(menu.getInventory());
     }
 }

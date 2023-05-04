@@ -32,7 +32,7 @@ public class MenuItem {
 
 
 
-    public static ItemStack makeItemStack(Material material, String name, List<String> lore) {
+    public static ItemStack makeItemStack(Material material, String name, String[] lore) {
         ItemStack item = new ItemStack(material, 1);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text(name));

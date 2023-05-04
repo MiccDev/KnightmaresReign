@@ -111,4 +111,9 @@ public class CustomItem {
 		return this;
 	}
 
+	public static HashMap<String, CustomItem> getHashMap() {
+		//Added so can be Visualised
+		return items;
+	}
+
 }
