@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 public class Menu {
     private final Inventory inventory;
     private @Nullable Player player;
-    private final Hashtable<Integer, MenuItem> menuItems = new Hashtable<>();
+    protected final Hashtable<Integer, MenuItem> menuItems = new Hashtable<>();
 
     public Menu(InventoryType inventoryType, @Nullable String name) {
         if (Objects.isNull(name)) {
@@ -50,8 +50,10 @@ public class Menu {
         menuItems.put(slot, menuItem);
     }
 
-    public void clickOnItem(Integer slot) {
-        menuItems.get(slot).Click();
+    public void clickOnItem(Integer slot, Player player) {
+        if(menuItems.containsKey(slot)) {
+            menuItems.get(slot).Click(player);
+        }
     }
 
 

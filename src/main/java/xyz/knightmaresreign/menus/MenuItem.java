@@ -2,6 +2,7 @@ package xyz.knightmaresreign.menus;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MenuItem {
     private final ItemStack itemStack;
@@ -21,7 +23,7 @@ public class MenuItem {
         this.clickcallback = clickcallback;
     }
 
-    public void Click() {
+    public void Click(Player player) {
         clickcallback.run();
     }
 
@@ -32,10 +34,12 @@ public class MenuItem {
 
 
 
-    public static ItemStack makeItemStack(Material material, String name, String[] lore) {
+    public static ItemStack makeItemStack(Material material, @Nullable String name, String[] lore) {
         ItemStack item = new ItemStack(material, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(name));
+        if (!Objects.isNull(name)) {
+            meta.displayName(Component.text(name));
+        }
         List<Component> lorelst = new ArrayList<>();
         for (String loreln : lore) {
             lorelst.add(Component.text(loreln));

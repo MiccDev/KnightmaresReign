@@ -10,6 +10,7 @@ import xyz.knightmaresreign.items.CustomItem;
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuItem;
 import xyz.knightmaresreign.menus.MenuManager;
+import xyz.knightmaresreign.menus.shop.TestShopMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,15 +24,26 @@ public class DataMenu extends Menu {
         Double defense = KnightmaresReign.getInstance().playerManager.getPlayerData(player).defense;
         String[] defenselst = {String.valueOf(defense)};
 
-        this.addItem(MenuItem.makeItemStack(Material.DIAMOND_CHESTPLATE, "Defense", defenselst), 0, () -> {
+        this.addItem(MenuItem.makeItemStack(Material.DIAMOND_CHESTPLATE, "Defense", defenselst), 12, () -> {
             player.sendMessage("Click on Defense");
         });
 
         Double strength = KnightmaresReign.getInstance().playerManager.getPlayerData(player).strength;
         String[] strengthlst = {String.valueOf(defense)};
 
-        this.addItem(MenuItem.makeItemStack(Material.IRON_SWORD, "Strength", strengthlst), 1, () -> {
+        this.addItem(MenuItem.makeItemStack(Material.IRON_SWORD, "Strength", strengthlst), 13, () -> {
             player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL));
+        });
+
+        Double speed = KnightmaresReign.getInstance().playerManager.getPlayerData(player).speed;
+        String[] speedlst = {String.valueOf(speed)};
+
+        this.addItem(MenuItem.makeItemStack(Material.RABBIT_FOOT, "Speed", speedlst), 14, () -> {
+            player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL));
+        });
+
+        this.addItem(MenuItem.makeItemStack(Material.EMERALD, "Shop", new String[]{}), 19, () -> {
+            MenuManager.OpenMenu(new TestShopMenu(player), player);
         });
 
         this.addItem(MenuItem.makeItemStack(Material.BOOK, "OpenMenuHashMap", new String[]{}), 26, () -> {
@@ -43,5 +55,12 @@ public class DataMenu extends Menu {
             HashMap<Object, Object> hashtable = new HashMap<>(CustomItem.getHashMap());
             MenuManager.OpenMenu(new HashMapRenderer(player, hashtable), player);
         });
+
+
+
+        for (int i = 0; i<27; i++) {
+            if(this.menuItems.containsKey(i)) continue;
+            this.addItem(MenuItem.makeItemStack(Material.GRAY_STAINED_GLASS_PANE, null, new String[]{}), i, ()->{});
+        }
     }
 }
