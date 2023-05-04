@@ -1,0 +1,10 @@
+name: KnightmaresReign
+main: xyz.knightmaresreign.KnightmaresReign
+version: Beta 0.1
+api-version: 1.19
+
+commands:
+  getbonk:
+    description: Gets the test bonk item.
+  getbook:
+    description: Gets the book item.
