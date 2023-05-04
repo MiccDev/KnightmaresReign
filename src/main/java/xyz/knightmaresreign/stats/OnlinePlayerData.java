@@ -111,10 +111,9 @@ public class OnlinePlayerData {
 	}
 
 	public double damage(double amount) {
-		double damageTaken = amount - defense;
-		plr.sendMessage(KnightmaresReign.getInstance().toComponent("Damage Taken: " + damageTaken));
+		double damage = amount * amount / (amount + defense) * 2.5;
 		
-		this.health -= amount;
+		this.health -= damage;
 		canRegen = false;
 		if (this.health <= 0 && !dead) {
 			health = 0;

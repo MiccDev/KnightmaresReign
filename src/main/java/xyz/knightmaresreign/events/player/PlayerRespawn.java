@@ -1,6 +1,5 @@
 package xyz.knightmaresreign.events.player;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -15,11 +14,7 @@ public class PlayerRespawn extends CustomEvent {
 
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-		Player player = event.getPlayer();
-		OnlinePlayerData plrData = OnlinePlayerData.getPlayer(player);
-		if (plrData == null)
-			plrData = OnlinePlayerData.addPlayer(player);
-		plrData.revive();
+		OnlinePlayerData.addPlayer(event.getPlayer());	
 	}
 
 }
