@@ -67,8 +67,8 @@ public class Menu {
         menuItems.put(slot, menuItem);
     }
 
-    public void clickOnItem(Integer slot, Player player) {
-        if(menuItems.containsKey(slot)) {
+    public void clickOnItem(Integer slot, Player player, ItemStack item) {
+        if(menuItems.containsKey(slot) && menuItems.get(slot).equals(item)) {
             menuItems.get(slot).Click(player);
         }
     }

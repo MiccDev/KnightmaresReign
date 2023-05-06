@@ -1,5 +1,6 @@
 package xyz.knightmaresreign.menus.shop;
 
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -48,8 +49,8 @@ public class Shop extends Menu {
         }
     }
 
-    public void clickOnItem(Integer slot, Player player) {
-        pages.get(openPage).clickOnItem(slot, player);
+    public void clickOnItem(Integer slot, Player player, ItemStack item) {
+        pages.get(openPage).clickOnItem(slot, player, item);
     }
 
     public void openPage(Integer page) {

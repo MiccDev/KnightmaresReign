@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ShopEntity extends CustomEvent {
 
     private HashMap<Entity, Runnable> shopEntities = new HashMap<>();
-    private static Player player;
+    private Player player;
 
     public ShopEntity() {
         shopEntities.put(Bukkit.getEntity(UUID.fromString("fc534ab5-ab5b-40ba-9c16-0888b5842289")), () -> {
@@ -32,6 +32,7 @@ public class ShopEntity extends CustomEvent {
         player = event.getPlayer();
         if(shopEntities.containsKey(event.getRightClicked())) {
             shopEntities.get(event.getRightClicked()).run();
+            event.setCancelled(true);
         }
     }
 

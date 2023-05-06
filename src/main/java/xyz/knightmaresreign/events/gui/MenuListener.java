@@ -20,7 +20,7 @@ public class MenuListener extends CustomEvent {
         if (!MenuManager.isInventoryOpenMenu(inv)) return;
         if (!MenuManager.getMenuFromInventory(inv).isPlayer((Player) event.getWhoClicked())) return;
         Menu menu = MenuManager.getMenuFromInventory(inv);
-        menu.clickOnItem(event.getSlot(), (Player) event.getWhoClicked());
+        menu.clickOnItem(event.getSlot(), (Player) event.getWhoClicked(), event.getCurrentItem());
         event.setCancelled(true);
     }
 
