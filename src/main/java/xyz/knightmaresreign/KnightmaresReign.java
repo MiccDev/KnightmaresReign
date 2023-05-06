@@ -145,7 +145,7 @@ public class KnightmaresReign extends JavaPlugin {
 	}
 	
 	public net.minecraft.network.chat.IChatBaseComponent toMcComponent(String text) {
-		return IChatBaseComponent.ChatSerializer.a(toColour(text));
+		return IChatBaseComponent.a(toColour(text));
 	}
 
 }
