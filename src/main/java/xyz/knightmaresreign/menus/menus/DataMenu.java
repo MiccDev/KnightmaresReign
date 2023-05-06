@@ -46,6 +46,10 @@ public class DataMenu extends Menu {
             MenuManager.OpenMenu(new TestShopMenu(player), player);
         });
 
+        this.addItem(MenuItem.makeItemStack(Material.DIAMOND, "Currency", new String[]{}), 20, () -> {
+            MenuManager.OpenMenu(new CurrencyMenu(player), player);
+        });
+
         this.addItem(MenuItem.makeItemStack(Material.BOOK, "OpenMenuHashMap", new String[]{}), 26, () -> {
             HashMap<Object, Object> hashtable = new HashMap<>(MenuManager.getHashMap());
             MenuManager.OpenMenu(new HashMapRenderer(player, hashtable), player);
