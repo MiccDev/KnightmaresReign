@@ -24,11 +24,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import xyz.knightmaresreign.KnightmaresReign;
-import xyz.knightmaresreign.entities.CustomEntity;
 import xyz.knightmaresreign.entities.boss.attacks.Attack;
 import xyz.knightmaresreign.entities.boss.attacks.AttackPhase;
 
-public abstract class Boss<T extends Enum<T>> extends CustomEntity {
+public abstract class Boss<T extends Enum<T>> {
 
 	private Boss<T> boss;
 	
@@ -62,7 +61,7 @@ public abstract class Boss<T extends Enum<T>> extends CustomEntity {
 	private Location location;
 	
 	public Boss(String id, String displayName, Class<T> attackStates, EntityType type) {
-		super(id, KnightmaresReign.getInstance().toComponent(displayName), type);
+//		super(id, KnightmaresReign.getInstance().toComponent(displayName), type);
 		this.displayName = displayName;
 		this.attackStates = attackStates;
 		
@@ -90,7 +89,6 @@ public abstract class Boss<T extends Enum<T>> extends CustomEntity {
 		}
 	}
 	
-	@Override
 	public void setup(Entity entity) {
 		LivingEntity e = (LivingEntity) entity;
 		

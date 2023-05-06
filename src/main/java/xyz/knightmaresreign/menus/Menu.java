@@ -1,21 +1,16 @@
 package xyz.knightmaresreign.menus;
 
-import net.kyori.adventure.text.Component;
+import java.util.Hashtable;
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.knightmaresreign.KnightmaresReign;
-import xyz.knightmaresreign.managers.PlayerManager;
 
-import java.util.*;
-import java.util.concurrent.Callable;
+import net.kyori.adventure.text.Component;
 
 public class Menu {
     private final Inventory inventory;

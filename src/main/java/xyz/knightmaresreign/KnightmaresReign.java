@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minecraft.network.chat.IChatBaseComponent;
 import xyz.knightmaresreign.commands.CustomCommand;
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
@@ -141,6 +142,10 @@ public class KnightmaresReign extends JavaPlugin {
 
 	public Component toComponent(String text) {
 		return Component.text(toColour(text));
+	}
+	
+	public net.minecraft.network.chat.IChatBaseComponent toMcComponent(String text) {
+		return IChatBaseComponent.ChatSerializer.a(toColour(text));
 	}
 
 }

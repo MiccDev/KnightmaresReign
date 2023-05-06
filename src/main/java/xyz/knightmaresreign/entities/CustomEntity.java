@@ -1,89 +1,95 @@
 package xyz.knightmaresreign.entities;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 
-import net.kyori.adventure.text.Component;
+import net.minecraft.world.entity.Entity;
+import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.entities.classes.TestBoi;
+import xyz.knightmaresreign.entities.data.EntityData;
 
-public abstract class CustomEntity {
-	
-	private static Map<String, CustomEntity> entities = new HashMap<String, CustomEntity>();
-	
-	public static void registerEntity(String id, CustomEntity e) {
-		entities.put(id, e);
-	}
-	
-	public static List<CustomEntity> getAllEntities() {
-		return entities.values().stream().collect(Collectors.toList());
+public class CustomEntity {
+	public static NamespacedKey ENTITY = new NamespacedKey(KnightmaresReign.KNIGHTMARES_REIGN, "entity");
+	public static HashMap<String, CustomEntity> entities = new HashMap<String, CustomEntity>();
+
+	public static CustomEntity TEST_BOI = new CustomEntity(Entities.TEST_BOI, TestBoi.class)
+			.setData(new EntityData().setName("&6Test Boi"));
+
+	public static boolean isCustomEntity(LivingEntity entity) {
+		if (entity == null)
+			return false;
+		return entity.getPersistentDataContainer().has(CustomEntity.ENTITY);
 	}
 
-	public String id;
-	private Component displayName;
-	private EntityType type;
-	
-	public boolean shouldDropItems = true;
-	
-	public CustomEntity(String id, Component displayName, EntityType type) {
-		this(id, displayName, type, true);
+	public static CustomEntity getEntity(NamespacedKey key) {
+		return getEntity(key.getKey());
 	}
-	
-	public CustomEntity(String id, Component displayName, EntityType type, boolean shouldDropItems) {
-		this.id = id;
+
+	public static CustomEntity getEntity(String key) {
+		if (!entities.containsKey(key))
+			return null;
+		return entities.get(key);
+	}
+
+	public static CustomEntity toEntity(LivingEntity entity) {
+		if (entity == null)
+			return null;
+		if (!isCustomEntity(entity))
+			return null;
+
+		String key = entity.getPersistentDataContainer().get(CustomEntity.ENTITY, PersistentDataType.STRING);
+		return getEntity(key);
+	}
+
+	private Entities type;
+	private EntityData data;
+	private Class<? extends Entity> entity;
+
+	public CustomEntity(Entities type, Class<? extends Entity> entity) {
 		this.type = type;
-		this.displayName = displayName;
-		this.shouldDropItems = shouldDropItems;
-		CustomEntity.registerEntity(id, this);
+		this.data = type.getData();
+		this.entity = entity;
+		entities.put(type.getKey().getKey(), this);
 	}
 
-	public abstract void setup(Entity e);
-	public void onDamage(Entity damager) {};
-	
-	public void setMaxHealth(LivingEntity e, double health) {
-		e.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
-		e.setHealth(e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-	}
-	
-	public void removeAllPassengers(LivingEntity e) {
-		for(Entity passenger : e.getPassengers()) {
-			e.removePassenger(passenger);
+	public Entity getEntity(Location location) {
+		Entity ent = null;
+		try {
+			ent = entity.getConstructor(Location.class).newInstance(location);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}
-	
-	public Entity spawnAt(Location location) {
-		Entity e = newEntity(location);
-		setup(e);
-		e.customName(displayName);
-		return e;
-	}
-	
-	public Entity newEntity(Location location) {
-		location = location != null ? location : new Location(Bukkit.getWorld("world"), 0, -70, 0);
-		return location.getWorld().spawnEntity(location, getType());
+		if (ent == null)
+			return null;
+		ent.b(KnightmaresReign.getInstance().toMcComponent(data.getName()));
+		ent.n(true);
+		return ent;
 	}
 
-	public EntityType getType() {
+	public Entities getType() {
 		return type;
 	}
 
-	public void setType(EntityType type) {
+	public CustomEntity setType(Entities type) {
 		this.type = type;
+		return this;
 	}
 
-	public Component getDisplayName() {
-		return displayName;
+	public EntityData getData() {
+		return data;
 	}
 
-	public void setDisplayName(Component displayName) {
-		this.displayName = displayName;
+	public CustomEntity setData(EntityData data) {
+		this.data = data;
+		return this;
 	}
-	
+
+	public static HashMap<String, CustomEntity> getHashMap() {
+		// Added so can be Visualised
+		return entities;
+	}
 }

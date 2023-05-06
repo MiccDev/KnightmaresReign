@@ -100,7 +100,7 @@ public class Dialog<T extends Enum<T>> {
 		List<Player> playersInRoom = boss.getPlayersInBossRoom();
 		
 		for(Player player : playersInRoom) {
-			player.sendMessage(boss.getDisplayName().append(KnightmaresReign.getInstance().toComponent(": " + message)));
+//			player.sendMessage(boss.getDisplayName().append(KnightmaresReign.getInstance().toComponent(": " + message)));
 			player.playSound(boss.getLocation(), dialogSound, 0.5f, 1f);
 		}
 	}

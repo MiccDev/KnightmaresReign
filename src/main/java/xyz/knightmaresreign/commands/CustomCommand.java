@@ -9,11 +9,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.world.entity.Entity;
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.entities.CustomEntity;
 import xyz.knightmaresreign.items.CustomItem;
 
 public abstract class CustomCommand implements CommandExecutor, TabCompleter {
@@ -58,6 +61,10 @@ public abstract class CustomCommand implements CommandExecutor, TabCompleter {
 					return true;
 				}
 				player.getInventory().addItem(CustomItem.DATA_BOOK.getItem());
+				Entity entity = CustomEntity.TEST_BOI.getEntity(player.getLocation());
+				if(entity != null) {
+					((CraftWorld) player.getLocation().getWorld()).getHandle().b(entity);
+				}
 				return false;
 			}
 		});
