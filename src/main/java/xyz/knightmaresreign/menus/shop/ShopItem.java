@@ -26,6 +26,7 @@ public class ShopItem extends MenuItem {
     }
 
     public void Click(Player player) {
+        if(!KnightmaresReign.getInstance().currencyManager.hasCurrency(player, cost)) return;
         KnightmaresReign.getInstance().currencyManager.removeCurrency(player, cost);
         super.Click(player);
     }

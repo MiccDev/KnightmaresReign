@@ -89,5 +89,9 @@ public class CurrencyManager {
 		if(currency.get(uuid) == null) currency.put(uuid, 0);
 		return currency.get(uuid);
 	}
+
+	public boolean hasCurrency(OfflinePlayer p, int amount) {
+		return getCurrency(p) >= amount;
+	}
 	
 }
