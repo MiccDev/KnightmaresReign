@@ -6,6 +6,7 @@ import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.events.entities.EntityDamage;
 import xyz.knightmaresreign.events.entities.EntityDamageEntity;
 import xyz.knightmaresreign.events.entities.EntityDeath;
+import xyz.knightmaresreign.events.entities.ShopEntity;
 import xyz.knightmaresreign.events.gui.MenuListener;
 import xyz.knightmaresreign.events.player.PlayerRespawn;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
@@ -23,6 +24,7 @@ public class CustomEvent implements Listener {
 		new EntityDamageEntity();
 
 		new MenuListener();
+		new ShopEntity();
 	}
 	
 	private KnightmaresReign plugin;
