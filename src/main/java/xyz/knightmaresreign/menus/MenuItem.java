@@ -38,11 +38,11 @@ public class MenuItem {
         ItemStack item = new ItemStack(material, 1);
         ItemMeta meta = item.getItemMeta();
         if (!Objects.isNull(name)) {
-            meta.displayName(Component.text(name));
+            meta.displayName(Component.text(formatString(name)));
         }
         List<Component> lorelst = new ArrayList<>();
         for (String loreln : lore) {
-            lorelst.add(Component.text(loreln));
+            lorelst.add(Component.text(formatString(loreln)));
         }
         meta.lore(lorelst);
 
@@ -52,5 +52,10 @@ public class MenuItem {
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    private static String formatString(String string) {
+        string = string.replace("&", "§");
+        return string;
     }
 }
