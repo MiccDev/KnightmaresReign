@@ -65,8 +65,8 @@ public class CustomEntity {
 		}
 		if (ent == null)
 			return null;
-		ent.b(KnightmaresReign.getInstance().toMcComponent(data.getName()));
-		ent.n(true);
+		ent.setCustomName(KnightmaresReign.getInstance().toMcComponent(data.getName()));
+		ent.setCustomNameVisible(true);
 		return ent;
 	}
 

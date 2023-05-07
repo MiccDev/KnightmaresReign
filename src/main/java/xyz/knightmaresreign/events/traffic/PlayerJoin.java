@@ -27,6 +27,8 @@ public class PlayerJoin extends CustomEvent {
 		
 		if(OnlinePlayerData.getPlayer(player) == null)
 			OnlinePlayerData.addPlayer(player);
+		
+		getPlugin().npcManager.showAllNPCs(player);
 	}
 	
 	private void createTablist(Player player) {

@@ -56,7 +56,7 @@ public abstract class Boss<T extends Enum<T>> {
 	private Location bounds1;
 	private Location bounds2;
 	
-	public Dialog<T> dialog;
+	public Dialog dialog;
 	
 	private Location location;
 	
@@ -73,7 +73,7 @@ public abstract class Boss<T extends Enum<T>> {
 		
 		blockDamage = 5;
 		blocks = new ArrayList<FallingBlock>();
-		dialog = new Dialog<T>(this);
+		dialog = new Dialog(displayName);
 		battleStarted = false;
 		
 		boss = null;

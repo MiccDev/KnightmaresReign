@@ -14,22 +14,21 @@ import xyz.knightmaresreign.menus.MenuManager;
 import xyz.knightmaresreign.menus.shop.TestShopMenu;
 import xyz.knightmaresreign.utils.PlayerRunnable;
 
-public class ShopEntity extends CustomEvent {
-    private HashMap<Entity, PlayerRunnable> shopEntities = new HashMap<>();
+public class PlayerInteractEntity extends CustomEvent {
+    private HashMap<Entity, PlayerRunnable> clickableEntities = new HashMap<>();
 
-    public ShopEntity() {
-        shopEntities.put(Bukkit.getEntity(UUID.fromString("fc534ab5-ab5b-40ba-9c16-0888b5842289")), (Player player) -> {
+    public PlayerInteractEntity() {
+    	clickableEntities.put(Bukkit.getEntity(UUID.fromString("fc534ab5-ab5b-40ba-9c16-0888b5842289")), (Player player) -> {
             MenuManager.OpenMenu(new TestShopMenu(player), player);
         });
     }
 
     @EventHandler
-    public void onShopOpen(PlayerInteractEntityEvent event) {
-        if(shopEntities.containsKey(event.getRightClicked())) {
-            shopEntities.get(event.getRightClicked()).run(event.getPlayer());
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if(clickableEntities.containsKey(event.getRightClicked())) {
+        	clickableEntities.get(event.getRightClicked()).run(event.getPlayer());
             event.setCancelled(true);
         }
     }
-
 
 }
