@@ -33,8 +33,10 @@ public class OnlinePlayerData {
 	private PlayerData plrData;
 	private double health;
 	private double mana;
+	@SuppressWarnings("unused")
 	private double strength;
 	private double defense;
+	@SuppressWarnings("unused")
 	private double speed;
 
 	private boolean dead = false;

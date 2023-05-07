@@ -63,7 +63,7 @@ public abstract class CustomCommand implements CommandExecutor, TabCompleter {
 				player.getInventory().addItem(CustomItem.DATA_BOOK.getItem());
 				Entity entity = CustomEntity.TEST_BOI.getEntity(player.getLocation());
 				if(entity != null) {
-					((CraftWorld) player.getLocation().getWorld()).getHandle().b(entity);
+					((CraftWorld) player.getLocation().getWorld()).getHandle().addFreshEntity(entity);
 				}
 				return false;
 			}

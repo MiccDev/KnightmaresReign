@@ -10,11 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import net.minecraft.network.chat.IChatBaseComponent;
 import xyz.knightmaresreign.commands.CustomCommand;
+import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
 import xyz.knightmaresreign.managers.CurrencyManager;
@@ -36,13 +39,14 @@ public class KnightmaresReign extends JavaPlugin {
 	}
 
 	public static final String KNIGHTMARES_REIGN = "knightmares_reign";
-	
+
 	public String name = "Knightmare's Reign";
 	public String title = "&8[&4&lKnightmare's Reign&8]";
 	public String version = "Beta 0.0.1";
 
 	public CurrencyManager currencyManager;
 	public PlayerManager playerManager;
+	public NPCManager npcManager;
 
 	public PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
 
@@ -66,11 +70,17 @@ public class KnightmaresReign extends JavaPlugin {
 			e.printStackTrace();
 		}
 
+		npcManager = new NPCManager();
+		npcManager.spawnAllNPCs();
+
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+		
 		CustomCommand.init();
-		CustomEvent.init();
+		CustomEvent.init(manager);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			PlayerJoin.createScoreboard(p);
+			npcManager.showAllNPCs(p);
 		}
 
 		new BukkitRunnable() {
@@ -107,6 +117,12 @@ public class KnightmaresReign extends JavaPlugin {
 	public void onDisable() {
 		getLogger().info("Disabling version.");
 
+		if(npcManager != null) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				npcManager.hideAllNPCs(p);
+			}
+		}
+
 		try {
 			currencyManager.saveCurrencyFile();
 		} catch (IOException e) {
@@ -136,6 +152,7 @@ public class KnightmaresReign extends JavaPlugin {
 		return from - random.nextInt(Math.abs(to - from));
 	}
 
+	@SuppressWarnings("deprecation")
 	public String toColour(String text) {
 		return ChatColor.translateAlternateColorCodes('&', text);
 	}
@@ -143,9 +160,9 @@ public class KnightmaresReign extends JavaPlugin {
 	public Component toComponent(String text) {
 		return Component.text(toColour(text));
 	}
-	
-	public net.minecraft.network.chat.IChatBaseComponent toMcComponent(String text) {
-		return IChatBaseComponent.a(toColour(text));
+
+	public net.minecraft.network.chat.Component toMcComponent(String text) {
+		return net.minecraft.network.chat.Component.nullToEmpty(toColour(text));
 	}
 
 }
