@@ -10,12 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minecraft.network.chat.IChatBaseComponent;
 import xyz.knightmaresreign.commands.CustomCommand;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.events.CustomEvent;
@@ -72,11 +70,9 @@ public class KnightmaresReign extends JavaPlugin {
 
 		npcManager = new NPCManager();
 		npcManager.spawnAllNPCs();
-
-		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 		
 		CustomCommand.init();
-		CustomEvent.init(manager);
+		CustomEvent.init();
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			PlayerJoin.createScoreboard(p);
@@ -161,8 +157,8 @@ public class KnightmaresReign extends JavaPlugin {
 		return Component.text(toColour(text));
 	}
 
-	public net.minecraft.network.chat.Component toMcComponent(String text) {
-		return net.minecraft.network.chat.Component.nullToEmpty(toColour(text));
+	public IChatBaseComponent toMcComponent(String text) {
+		return IChatBaseComponent.a(toColour(text));
 	}
 
 }

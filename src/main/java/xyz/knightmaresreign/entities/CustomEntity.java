@@ -9,15 +9,14 @@ import org.bukkit.persistence.PersistentDataType;
 
 import net.minecraft.world.entity.Entity;
 import xyz.knightmaresreign.KnightmaresReign;
-import xyz.knightmaresreign.entities.classes.TestBoi;
 import xyz.knightmaresreign.entities.data.EntityData;
 
 public class CustomEntity {
 	public static NamespacedKey ENTITY = new NamespacedKey(KnightmaresReign.KNIGHTMARES_REIGN, "entity");
 	public static HashMap<String, CustomEntity> entities = new HashMap<String, CustomEntity>();
 
-	public static CustomEntity TEST_BOI = new CustomEntity(Entities.TEST_BOI, TestBoi.class)
-			.setData(new EntityData().setName("&6Test Boi"));
+//	public static CustomEntity TEST_BOI = new CustomEntity(Entities.TEST_BOI, TestBoi.class)
+//			.setData(new EntityData().setName("&6Test Boi"));
 
 	public static boolean isCustomEntity(LivingEntity entity) {
 		if (entity == null)
@@ -65,8 +64,8 @@ public class CustomEntity {
 		}
 		if (ent == null)
 			return null;
-		ent.setCustomName(KnightmaresReign.getInstance().toMcComponent(data.getName()));
-		ent.setCustomNameVisible(true);
+		ent.b(KnightmaresReign.getInstance().toMcComponent(data.getName()));
+		ent.n(true);
 		return ent;
 	}
 
