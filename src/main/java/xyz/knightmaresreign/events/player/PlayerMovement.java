@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundRotateHeadPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.network.protocol.game.PacketPlayOutEntity;
+import net.minecraft.network.protocol.game.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.level.EntityPlayer;
+import net.minecraft.server.network.PlayerConnection;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.events.CustomEvent;
 
@@ -19,7 +19,7 @@ public class PlayerMovement extends CustomEvent {
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		NPCManager.getNPCs().values().forEach(npc -> {
-			ServerPlayer human = npc.getEntityPlayer();
+			EntityPlayer human = npc.getEntityPlayer();
 			
 			Location location = npc.getLocation();
 			if(player.getLocation().distance(location) > 7) return;
@@ -27,9 +27,9 @@ public class PlayerMovement extends CustomEvent {
 			float yaw = location.getYaw();
 			float pitch = location.getPitch();
 			
-			ServerGamePacketListenerImpl ps = ((CraftPlayer) player).getHandle().connection;
-			ps.send(new ClientboundRotateHeadPacket(human, (byte) ((yaw % 360) * 256 / 360)));
-			ps.send(new ClientboundMoveEntityPacket.Rot(human.getBukkitEntity().getEntityId(), (byte) ((yaw % 360) * 256 / 360), (byte) ((pitch % 360) * 256 / 360), false));
+			PlayerConnection ps = ((CraftPlayer) player).getHandle().b;
+			ps.a(new PacketPlayOutEntityHeadRotation(human, (byte) ((yaw % 360) * 256 / 360)));
+			ps.a(new PacketPlayOutEntity.PacketPlayOutEntityLook(human.getBukkitEntity().getEntityId(), (byte) ((yaw % 360) * 256 / 360), (byte) ((pitch % 360) * 256 / 360), false));
 		});
 	}
 	

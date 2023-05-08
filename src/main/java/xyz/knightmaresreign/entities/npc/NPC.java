@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
+import net.minecraft.network.protocol.game.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.level.EntityPlayer;
+import net.minecraft.server.level.WorldServer;
+import net.minecraft.server.network.PlayerConnection;
 import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.boss.Dialog;
 import xyz.knightmaresreign.utils.SkinUtils;
@@ -31,7 +31,7 @@ public class NPC {
 	private String texture;
 	private String signature;
 	private GameProfile gameProfile;
-	private ServerPlayer entityPlayer;
+	private EntityPlayer entityPlayer;
 	
 	private Dialog dialog;
 	
@@ -51,31 +51,31 @@ public class NPC {
 	}
 	
 	public void hide(Player player) {
-		ServerGamePacketListenerImpl playerConnection = ((CraftPlayer) player).getHandle().connection;
+		PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().b;
 		if(entityPlayer.getBukkitEntity() == null) return;
-		playerConnection.send(new ClientboundRemoveEntitiesPacket(entityPlayer.getBukkitEntity().getEntityId()));
+		playerConnection.a(new PacketPlayOutEntityDestroy(entityPlayer.getBukkitEntity().getEntityId()));
 	}
 	
 	public void spawn(Location location) {
 		KnightmaresReign plugin = KnightmaresReign.getInstance();
 		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-		ServerLevel worldServer = ((CraftWorld) location.getWorld()).getHandle();
+		WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
 		
 		gameProfile = new GameProfile(UUID.randomUUID(), plugin.toColour(name));
 		gameProfile.getProperties().removeAll("textures");
 		gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 		
-		entityPlayer = new ServerPlayer(server, worldServer, gameProfile);
-		entityPlayer.setPos(location.getX(), location.getY(), location.getZ());
+		entityPlayer = new EntityPlayer(server, worldServer, gameProfile);
+		entityPlayer.e(location.getX(), location.getY(), location.getZ());
 //		entityPlayer.a(location.getYaw(), location.getPitch());
 	}
 	
 	public void show(Player player) {
-		ServerGamePacketListenerImpl playerConnection = ((CraftPlayer) player).getHandle().connection;
+		PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().b;
 		
 		// Send packet of ADD_PLAYER type.
-		playerConnection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, entityPlayer));
-		playerConnection.send(new ClientboundAddPlayerPacket(entityPlayer));
+		playerConnection.a(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.a.a, entityPlayer));
+		playerConnection.a(new PacketPlayOutNamedEntitySpawn(entityPlayer));
 	}
 	
 	public NPC setMessagesId(String id, List<String> messages) {
@@ -89,7 +89,7 @@ public class NPC {
 	}
 	
 	public int getEntityID() {
-		return entityPlayer == null ? 0 : entityPlayer.getId();
+		return entityPlayer == null ? 0 : entityPlayer.af();
 	}
 
 	public Dialog getDialog() {
@@ -141,11 +141,11 @@ public class NPC {
 		return this;
 	}
 
-	public ServerPlayer getEntityPlayer() {
+	public EntityPlayer getEntityPlayer() {
 		return entityPlayer;
 	}
 
-	public NPC setEntityPlayer(ServerPlayer entityPlayer) {
+	public NPC setEntityPlayer(EntityPlayer entityPlayer) {
 		this.entityPlayer = entityPlayer;
 		return this;
 	}
