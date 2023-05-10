@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,10 +62,10 @@ public abstract class CustomCommand implements CommandExecutor, TabCompleter {
 					return true;
 				}
 				player.getInventory().addItem(CustomItem.DATA_BOOK.getItem());
-//				Entity entity = CustomEntity.TEST_BOI.getEntity(player.getLocation());
-//				if(entity != null) {
-//					((CraftWorld) player.getLocation().getWorld()).getHandle().addFreshEntity(entity);
-//				}
+				Entity entity = CustomEntity.COW.getEntity(player.getLocation());
+				if(entity != null) {
+					((CraftWorld) player.getLocation().getWorld()).getHandle().addFreshEntity(entity, CreatureSpawnEvent.SpawnReason.COMMAND);
+				}
 				return false;
 			}
 		});

@@ -1,21 +1,24 @@
 package xyz.knightmaresreign.menus.shop;
 
-import org.bukkit.entity.Item;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuItem;
 import xyz.knightmaresreign.menus.MenuManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
 public class Shop extends Menu {
 
+	public static int toInventoryPosition(int x, int y) {
+		return y * 9 + x;
+	}
+	
     private HashMap<Integer, ShopMenu> pages = new HashMap<>();
     private List<MenuItem> PageIcons = new ArrayList<>();
 

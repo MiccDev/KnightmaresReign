@@ -98,7 +98,7 @@ public class Dialog {
 	
 	public void sendMessage(Player player, String message) {
 		Random random = new Random();
-		player.sendMessage(KnightmaresReign.getInstance().toComponent(name + ": " + message));
+		player.sendMessage(KnightmaresReign.getInstance().toComponent(name + "&r: " + message));
 		player.playSound(player, dialogSound, 0.5f, 1f + ((random.nextFloat(1 - -1) + -1)));
 	}
 	

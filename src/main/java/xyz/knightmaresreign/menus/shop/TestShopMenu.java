@@ -2,9 +2,7 @@ package xyz.knightmaresreign.menus.shop;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 
-import org.bukkit.inventory.ItemStack;
 import xyz.knightmaresreign.items.CustomItem;
 import xyz.knightmaresreign.menus.MenuItem;
 
