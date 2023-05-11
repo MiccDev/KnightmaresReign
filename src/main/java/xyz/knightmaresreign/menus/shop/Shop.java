@@ -1,6 +1,7 @@
 package xyz.knightmaresreign.menus.shop;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Shop extends Menu {
 	}
 	
     private HashMap<Integer, ShopMenu> pages = new HashMap<>();
-    private List<MenuItem> PageIcons = new ArrayList<>();
+    private HashMap<Integer, MenuItem> PageIcons = new HashMap<>();
 
     private Integer inventorySize;
     private Integer openPage;
@@ -39,17 +40,53 @@ public class Shop extends Menu {
         pages.get(page).addItem(itemStack, slot + 9, clickcallback, cost);
     }
 
-    public void addPage(Integer page, ItemStack icon, String name) {
-        pages.put(page, new ShopMenu(inventorySize + 9, name, this.player));
-        PageIcons.add(new MenuItem(icon, PageIcons.size(), () -> {
+    public void addNextPageIcon(Integer slot, ItemStack itemStack) {
+        PageIcons.put(slot, new MenuItem(itemStack, slot, () -> {
+            Integer nextpage = openPage + 1;
+            if (pages.containsKey(nextpage)){
+                openPage(nextpage);
+            } else {
+                openPage(0);
+            }
+        }));
+        syncPageIcons();
+    }
+
+    public void addPreviousPageIcon(Integer slot, ItemStack itemStack) {
+        PageIcons.put(slot, new MenuItem(itemStack, slot, () -> {
+            Integer nextpage = openPage - 1;
+            if (pages.containsKey(nextpage)){
+                openPage(nextpage);
+            } else {
+                openPage(Collections.max(pages.keySet()));
+            }
+        }));
+        syncPageIcons();
+    }
+
+    public void addPage(Integer page, Integer slot, ItemStack icon, String name) {
+        PageIcons.put(slot, new MenuItem(icon, PageIcons.size(), () -> {
             openPage(page);;
         }));
-        for (int i = 0; i < PageIcons.size(); i++) {
+        addPage(page, name);
+    }
+
+    public void addPage(Integer page, String name) {
+        pages.put(page, new ShopMenu(inventorySize, name, this.player));
+        syncPageIcons();
+    }
+
+    private void syncPageIcons(){
+        for (Integer i : PageIcons.keySet()) {
             MenuItem menuItem = PageIcons.get(i);
             for (ShopMenu shopMenu : pages.values()) {
                 shopMenu.addItem(menuItem, i);
             }
         }
+    }
+
+    public void addPage(Integer page, ItemStack icon, String name) {
+        this.addPage(page, page, icon, name);
     }
 
     public void clickOnItem(Integer slot, Player player, ItemStack item) {

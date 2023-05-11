@@ -11,7 +11,7 @@ public class TestShopMenu extends Shop {
         //Initialize the Shop
         super(27, "TestShop", player);
 
-        this.addPage(0, MenuItem.makeItemStack(Material.EMERALD, "&7&lPage &3&l1", new String[]{}), "Page1");
+        this.addPage(0, 8, MenuItem.makeItemStack(Material.EMERALD, "&7&lPage &3&l1", new String[]{}), "Page1");
 
         this.addItem( 0, CustomItem.SENOR_BONKERS.getItem(), 13, () -> {
             player.getInventory().addItem(CustomItem.SENOR_BONKERS.getItem());
@@ -23,5 +23,9 @@ public class TestShopMenu extends Shop {
             player.getInventory().addItem(CustomItem.SENOR_BONKERS.getItem());
         }, 10);
 
+        this.addNextPageIcon(0, MenuItem.makeItemStack(Material.ARROW, "Next Page", new String[]{}));
+        this.addPreviousPageIcon(10, MenuItem.makeItemStack(Material.BIRCH_BOAT, "Previous Page", new String[]{}));
+
+        this.addPage(2, "Page 3 (Secret)");
     }
 }
