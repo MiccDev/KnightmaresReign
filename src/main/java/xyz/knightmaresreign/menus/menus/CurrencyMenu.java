@@ -3,9 +3,7 @@ package xyz.knightmaresreign.menus.menus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.jetbrains.annotations.Nullable;
 import xyz.knightmaresreign.KnightmaresReign;
-import xyz.knightmaresreign.managers.CurrencyManager;
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuItem;
 
