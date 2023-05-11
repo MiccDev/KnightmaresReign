@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -45,6 +48,8 @@ public class KnightmaresReign extends JavaPlugin {
 	public CurrencyManager currencyManager;
 	public PlayerManager playerManager;
 	public NPCManager npcManager;
+	
+	private ProtocolManager protocolManager;
 
 	public PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
 
@@ -52,6 +57,8 @@ public class KnightmaresReign extends JavaPlugin {
 	public void onEnable() {
 		getLogger().info("Enabling with version: " + version);
 		setInstance(this);
+		
+		protocolManager = ProtocolLibrary.getProtocolManager();
 
 		saveDefaultConfig();
 		currencyManager = new CurrencyManager();
@@ -72,7 +79,7 @@ public class KnightmaresReign extends JavaPlugin {
 		npcManager.spawnAllNPCs();
 		
 		CustomCommand.init();
-		CustomEvent.init();
+		CustomEvent.init(protocolManager);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			PlayerJoin.createScoreboard(p);

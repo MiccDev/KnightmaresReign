@@ -7,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import xyz.knightmaresreign.menus.MenuManager;
+import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
+
 public class NPCManager {
 
 	private static HashMap<String, NPC> npcs = new HashMap<String, NPC>();
@@ -26,7 +29,15 @@ public class NPCManager {
 	public static NPC LEON = new NPC("&1Leon")
 			.setLocation(new Location(Bukkit.getWorld("openworld"), 71.5, 54, 40.5))
 			.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTY2MDYxMjQwNjcyNiwKICAicHJvZmlsZUlkIiA6ICIzZmM3ZmRmOTM5NjM0YzQxOTExOTliYTNmN2NjM2ZlZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJZZWxlaGEiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI4OGZkOWQyMmJlYjVlNzEzYWYzOTUwNjcyNmYzOWQ2MTFkNWQ3NzliZjhjMDIzOTQ4NTRlODUyMzM1ZDZjIgogICAgfQogIH0KfQ==")
-			.setSignature("NBa752Q6azx7lhdtaNWIthUierSMviaRCERqCoGvmHWIQVKcPvqXxMddsJykDnJf6P2sUKprBUiAMRF+QqabknxiGQqUlU3eFfmLaP9YxBH9/Y1yi41c6WGkogZJLooul50AySl1G8YyNSOIk3a3BfK5Cik5QX9RlMn3RDd3Ji+68k26xKGLdhmchww0QGdHCsU4KeT8NlI370kpNDykvwhp12bXSioCUidG73zgjCeYbvxPyupx9lh4H1p5Wu8ZLJjCnek08mGrLToGPrbqrab2ZDS/4mfvcun+tDiJI8h4YSzJmeHifLSCaotPo12idtcs0UcgcyKCRehTmwwsQT9H6PGtWi6gnNV6RmQEfK3IfGLJno9arbFW3b+6PInLVMXIJc50W6abxSXskLE+h8AZqIyoL6x4OCJC4H7qPpORXhPdPiGaw7Fd9U2pDXJYcLpduFAmtls/AKKYIKnv7VZ5UJw9N0glAszS6Sr3PSssKAPA+TFoNeukeARPikAl0+detXBtc6uzvftUiFDC4dabSGIQmVqWSymN4cAhiuApQPFRyuZ+84BDifQrXkRAWeH5BUkb4YHv2LQAD2u8GaFxdAIMgSJQwAQa+HD9UOebIRQ/L6KLUTLFAsDp3QxjoHdZpkU5d5aU4/x9L4Z9n2cFz8WePcGh2f8rxpfhzrA=");
+			.setSignature("NBa752Q6azx7lhdtaNWIthUierSMviaRCERqCoGvmHWIQVKcPvqXxMddsJykDnJf6P2sUKprBUiAMRF+QqabknxiGQqUlU3eFfmLaP9YxBH9/Y1yi41c6WGkogZJLooul50AySl1G8YyNSOIk3a3BfK5Cik5QX9RlMn3RDd3Ji+68k26xKGLdhmchww0QGdHCsU4KeT8NlI370kpNDykvwhp12bXSioCUidG73zgjCeYbvxPyupx9lh4H1p5Wu8ZLJjCnek08mGrLToGPrbqrab2ZDS/4mfvcun+tDiJI8h4YSzJmeHifLSCaotPo12idtcs0UcgcyKCRehTmwwsQT9H6PGtWi6gnNV6RmQEfK3IfGLJno9arbFW3b+6PInLVMXIJc50W6abxSXskLE+h8AZqIyoL6x4OCJC4H7qPpORXhPdPiGaw7Fd9U2pDXJYcLpduFAmtls/AKKYIKnv7VZ5UJw9N0glAszS6Sr3PSssKAPA+TFoNeukeARPikAl0+detXBtc6uzvftUiFDC4dabSGIQmVqWSymN4cAhiuApQPFRyuZ+84BDifQrXkRAWeH5BUkb4YHv2LQAD2u8GaFxdAIMgSJQwAQa+HD9UOebIRQ/L6KLUTLFAsDp3QxjoHdZpkU5d5aU4/x9L4Z9n2cFz8WePcGh2f8rxpfhzrA=")
+			.setMessagesId("welcome-messages", Arrays.asList(
+					"Need some defense? Good, you look like you need it.",
+					"Ha, take that Deon! I mean.. hey! How can I help you?",
+					"The tougher the better, welcome."
+			))
+			.setClick((NPC npc, Player player) -> {
+				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+			});
 	public static NPC DEON = new NPC("&6Deon")
 			.setLocation(new Location(Bukkit.getWorld("openworld"), 71.5, 54, 36.5))
 			.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTY2MDYxMTY0NDg4MSwKICAicHJvZmlsZUlkIiA6ICI5ZWEyMTQ0NGFiNjI0MWZkYjg5YjE2NDFhNDg2MGZiZiIsCiAgInByb2ZpbGVOYW1lIiA6ICI3QUJDSE9VTiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9kZGNjZGExNDNkYzk4NzQxOWM0MGEyMDg3NWVmYjMyNTM1NzkzYWI3YjcxZjkwMThjYWNkYjdlYWMwNjU2MTJlIgogICAgfQogIH0KfQ==")
@@ -35,7 +46,11 @@ public class NPCManager {
 					"Hello there, you need some tools? You've come to the right place!",
 					"Back for some more weapons, good idea, no need for armour when you have offense!",
 					"Ready for the best prices in the neighbourhood."
-			));
+			))
+			.setClick((NPC npc, Player player) -> {
+				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+				MenuManager.OpenMenu(new WeaponShop(player), player);
+			});
 //	public static NPC GEO = new NPC("Geo")
 //			.setLocation(new Location(Bukkit.getWorld("openworld"), 61, 54, 31))
 //			.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTY4MzQyMzk0NDAxNiwKICAicHJvZmlsZUlkIiA6ICI3YzI2YTAxY2U4NjU0NDkzOTA3NzA2OGQxZTA5ZjE5MiIsCiAgInByb2ZpbGVOYW1lIiA6ICJodG93ZXI4IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzZkOGFlMmVjZjMwMTljOTMxZDI0OTY4ZDkwOGU3NWM1ZDI4YzA2ZWY1NmJlYzkxNWJhMmQ0NWI5NjA2MWE5ZTUiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==")

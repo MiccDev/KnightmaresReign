@@ -10,7 +10,8 @@ import xyz.knightmaresreign.entities.data.EntityData;
 public enum Entities {
 
 	NONE("none"),
-	TEST_BOI("test_boi", EntityTypes.aL);
+	TEST_BOI("test_boi", EntityTypes.aL),
+	COW("cow", EntityTypes.t);
 	
 	private final NamespacedKey key;
 	private final EntityData data;

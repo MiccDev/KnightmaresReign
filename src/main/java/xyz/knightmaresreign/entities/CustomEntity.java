@@ -10,6 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 import net.minecraft.world.entity.Entity;
 import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.data.EntityData;
+import xyz.knightmaresreign.entities.spawn.Cow;
 
 public class CustomEntity {
 	public static NamespacedKey ENTITY = new NamespacedKey(KnightmaresReign.KNIGHTMARES_REIGN, "entity");
@@ -17,6 +18,8 @@ public class CustomEntity {
 
 //	public static CustomEntity TEST_BOI = new CustomEntity(Entities.TEST_BOI, TestBoi.class)
 //			.setData(new EntityData().setName("&6Test Boi"));
+	public static CustomEntity COW = new CustomEntity(Entities.COW, Cow.class)
+			.setData(new EntityData().setName("Cow"));
 
 	public static boolean isCustomEntity(LivingEntity entity) {
 		if (entity == null)

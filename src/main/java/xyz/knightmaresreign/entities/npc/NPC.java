@@ -25,6 +25,10 @@ import xyz.knightmaresreign.entities.boss.Dialog;
 import xyz.knightmaresreign.utils.SkinUtils;
 
 public class NPC {
+	
+	public interface NPCRunnable {
+		public void run(NPC npc, Player player);
+	}
 
 	private Location location;
 	private String name;
@@ -34,6 +38,8 @@ public class NPC {
 	private EntityPlayer entityPlayer;
 	
 	private Dialog dialog;
+	
+	private NPCRunnable onClick;
 	
 	public NPC(String name) {
 		this(name, "Steve");
@@ -66,6 +72,7 @@ public class NPC {
 		gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 		
 		entityPlayer = new EntityPlayer(server, worldServer, gameProfile);
+		// Sets location.
 		entityPlayer.e(location.getX(), location.getY(), location.getZ());
 //		entityPlayer.a(location.getYaw(), location.getPitch());
 	}
@@ -76,6 +83,15 @@ public class NPC {
 		// Send packet of ADD_PLAYER type.
 		playerConnection.a(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.a.a, entityPlayer));
 		playerConnection.a(new PacketPlayOutNamedEntitySpawn(entityPlayer));
+	}
+	
+	public NPC setClick(NPCRunnable click) {
+		this.onClick = click;
+		return this;
+	}
+	
+	public NPCRunnable getClick() {
+		return onClick;
 	}
 	
 	public NPC setMessagesId(String id, List<String> messages) {
