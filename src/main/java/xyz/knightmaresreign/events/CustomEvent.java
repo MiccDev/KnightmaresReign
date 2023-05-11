@@ -19,6 +19,7 @@ import xyz.knightmaresreign.events.entities.PlayerInteractEntity;
 import xyz.knightmaresreign.events.gui.MenuListener;
 import xyz.knightmaresreign.events.player.PlayerMovement;
 import xyz.knightmaresreign.events.player.PlayerRespawn;
+import xyz.knightmaresreign.events.player.PlayerUseProjectileWeapon;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
 import xyz.knightmaresreign.events.traffic.PlayerLeave;
 
@@ -61,6 +62,8 @@ public class CustomEvent implements Listener {
 
 		new MenuListener();
 		new PlayerInteractEntity();
+
+		new PlayerUseProjectileWeapon();
 	}
 	
 	private KnightmaresReign plugin;

@@ -6,8 +6,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.items.CustomItem;
+import xyz.knightmaresreign.items.Items;
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuManager;
 import xyz.knightmaresreign.menus.menus.DataMenu;
@@ -34,7 +36,9 @@ public class MenuListener extends CustomEvent {
 
     @EventHandler
     public void onBookClick(PlayerInteractEvent event) {
-        if (event.hasItem() && event.getItem().equals(CustomItem.DATA_BOOK.getItem())){
+        if(!CustomItem.isCustomItem(event.getItem())) return;
+        Items type = CustomItem.toItem(event.getItem()).getType();
+        if (type == Items.DATA_BOOK){
             MenuManager.OpenMenu(new DataMenu(event.getPlayer()), event.getPlayer());
         }
     }
