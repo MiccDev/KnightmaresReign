@@ -1,14 +1,15 @@
 package xyz.knightmaresreign.menus.menus;
 
+import java.util.HashMap;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import xyz.knightmaresreign.items.CustomItem;
+
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuItem;
-
-import java.util.HashMap;
+import xyz.knightmaresreign.utils.PlayerRunnable;
 
 public class HashMapRenderer extends Menu {
 
@@ -19,18 +20,18 @@ public class HashMapRenderer extends Menu {
         for (Object key : hashtable.keySet()) {
             String[] list = {String.valueOf(key), String.valueOf(hashtable.get(key))};
 
-            Runnable run;
+            PlayerRunnable run;
             Material material = Material.PAPER;
             if (hashtable.get(key) instanceof Menu) {
-                run = () -> {
+                run = (Player plr) -> {
                     Inventory inventory = (Inventory) key;
                     player.openInventory(inventory);
                 };
             } else {
-                run = () -> {};
+                run = (Player plr) -> {};
             }
 
-            this.addItem(MenuItem.makeItemStack(Material.PAPER, String.valueOf(i), list), i, run);
+            this.addItem(MenuItem.makeItemStack(material, String.valueOf(i), list), i, run);
             i++;
         }
 

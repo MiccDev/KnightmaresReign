@@ -17,6 +17,8 @@ import xyz.knightmaresreign.events.entities.EntityDamageEntity;
 import xyz.knightmaresreign.events.entities.EntityDeath;
 import xyz.knightmaresreign.events.entities.PlayerInteractEntity;
 import xyz.knightmaresreign.events.gui.MenuListener;
+import xyz.knightmaresreign.events.player.PlayerEquipArmour;
+import xyz.knightmaresreign.events.player.PlayerInteract;
 import xyz.knightmaresreign.events.player.PlayerMovement;
 import xyz.knightmaresreign.events.player.PlayerRespawn;
 import xyz.knightmaresreign.events.player.PlayerUseProjectileWeapon;
@@ -55,6 +57,8 @@ public class CustomEvent implements Listener {
 		new PlayerLeave();
 		new PlayerRespawn();
 		new PlayerMovement();
+		new PlayerInteract();
+		new PlayerEquipArmour();
 		
 		new EntityDamage();
 		new EntityDeath();

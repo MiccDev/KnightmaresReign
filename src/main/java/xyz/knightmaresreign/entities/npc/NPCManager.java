@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import xyz.knightmaresreign.menus.MenuManager;
+import xyz.knightmaresreign.menus.shop.npcs.ArmourShop;
 import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
 
 public class NPCManager {
@@ -33,10 +34,13 @@ public class NPCManager {
 			.setMessagesId("welcome-messages", Arrays.asList(
 					"Need some defense? Good, you look like you need it.",
 					"Ha, take that Deon! I mean.. hey! How can I help you?",
-					"The tougher the better, welcome."
+					"The tougher the better, welcome.",
+					"Deon's weapons can't hurt you if they can't pierce through your armour! What do you need?",
+					"My armour has the perfect combination of protection, comfort and style! Want some?"
 			))
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+				MenuManager.OpenMenu(new ArmourShop(player), player);
 			});
 	public static NPC DEON = new NPC("&6Deon")
 			.setLocation(new Location(Bukkit.getWorld("openworld"), 71.5, 54, 36.5))
@@ -45,7 +49,9 @@ public class NPCManager {
 			.setMessagesId("welcome-messages", Arrays.asList(
 					"Hello there, you need some tools? You've come to the right place!",
 					"Back for some more weapons, good idea, no need for armour when you have offense!",
-					"Ready for the best prices in the neighbourhood."
+					"Ready for the best prices in the neighbourhood.",
+					"Everyone knows the best strategy is brute force! Need some weapons?",
+					"You won't need any of Leon's armour when you get a taste of my weapons! What are you eyeing to buy?"
 			))
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");

@@ -14,7 +14,12 @@ public enum Items implements Keyed {
 	MAGIC_WEAPON("magic_weapon", Material.STICK),
 	SENOR_BONKERS("senor_bonkers", Material.STICK),
 
-	DATA_BOOK("data_book", Material.BOOK);
+	DATA_BOOK("data_book", Material.BOOK),
+	
+	PEASANT_HAT("peasant_hat", Material.LEATHER_HELMET),
+	PEASANT_SHIRT("peasant_shirt", Material.LEATHER_CHESTPLATE),
+	PEASANT_PANTS("peasant_pants", Material.LEATHER_LEGGINGS),
+	PEASANT_SHOES("peasant_shoes", Material.LEATHER_BOOTS);
 	
 	private final NamespacedKey key;
 	private final Material material;

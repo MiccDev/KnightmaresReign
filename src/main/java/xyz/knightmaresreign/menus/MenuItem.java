@@ -1,6 +1,9 @@
 package xyz.knightmaresreign.menus;
 
-import net.kyori.adventure.text.Component;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -8,28 +11,27 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import net.kyori.adventure.text.Component;
+import xyz.knightmaresreign.utils.PlayerRunnable;
 
 public class MenuItem {
     private final ItemStack itemStack;
     private final Integer slot;
-    private final Runnable clickcallback;
+    private final PlayerRunnable clickcallback;
 
-    public MenuItem(ItemStack itemStack, Integer slot, @Nullable Runnable clickcallback) {
+    public MenuItem(ItemStack itemStack, Integer slot, @Nullable PlayerRunnable clickcallback) {
         this.itemStack = itemStack;
         this.slot = slot;
         this.clickcallback = clickcallback;
     }
 
     public void Click(Player player) {
-        clickcallback.run();
+        clickcallback.run(player);
     }
 
     public ItemStack getItemStack() {return itemStack;}
     public Integer getSlot() {return slot;}
-    public Runnable getClickcallback() {return clickcallback;}
+    public PlayerRunnable getClickcallback() {return clickcallback;}
 
 
 
@@ -47,7 +49,7 @@ public class MenuItem {
         meta.lore(lorelst);
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS,
-                ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+                ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
 
         item.setItemMeta(meta);
 

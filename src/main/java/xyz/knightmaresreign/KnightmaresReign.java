@@ -21,12 +21,12 @@ import xyz.knightmaresreign.commands.CustomCommand;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
-import xyz.knightmaresreign.managers.CurrencyManager;
 import xyz.knightmaresreign.managers.PlayerData;
 import xyz.knightmaresreign.managers.PlayerManager;
 import xyz.knightmaresreign.scoreboard.ScoreboardUtils;
 import xyz.knightmaresreign.stats.OnlinePlayerData;
 
+@SuppressWarnings("deprecation")
 public class KnightmaresReign extends JavaPlugin {
 
 	private static KnightmaresReign instance;
@@ -45,7 +45,6 @@ public class KnightmaresReign extends JavaPlugin {
 	public String title = "&8[&4&lKnightmare's Reign&8]";
 	public String version = "Beta 0.0.1";
 
-	public CurrencyManager currencyManager;
 	public PlayerManager playerManager;
 	public NPCManager npcManager;
 	
@@ -61,16 +60,10 @@ public class KnightmaresReign extends JavaPlugin {
 		protocolManager = ProtocolLibrary.getProtocolManager();
 
 		saveDefaultConfig();
-		currencyManager = new CurrencyManager();
-		try {
-			currencyManager.loadCurrencyFile();
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
 
 		playerManager = new PlayerManager();
 		try {
-			playerManager.loadPlayerDataFile();
+			playerManager.load();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -82,6 +75,11 @@ public class KnightmaresReign extends JavaPlugin {
 		CustomEvent.init(protocolManager);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
+			OnlinePlayerData plrData = OnlinePlayerData.getPlayer(p);
+			if (plrData == null)
+				plrData = OnlinePlayerData.addPlayer(p);
+			
+			plrData.setDefense(OnlinePlayerData.getDefense(p));
 			PlayerJoin.createScoreboard(p);
 			npcManager.showAllNPCs(p);
 		}
@@ -94,21 +92,21 @@ public class KnightmaresReign extends JavaPlugin {
 
 					String rank = PlaceholderAPI.setPlaceholders(p, "%luckperms_prefix%");
 
+					PlayerData data = playerManager.get(p);
+					OnlinePlayerData plrData = OnlinePlayerData.getPlayer(p);
+					if (plrData == null)
+						plrData = OnlinePlayerData.addPlayer(p);
+					
 					scoreboard.setSuffix("rank", rank);
 					scoreboard.setSuffix("players",
 							"&6" + Bukkit.getOnlinePlayers().size() + "&7/&6" + Bukkit.getMaxPlayers());
-					scoreboard.setSuffix("coins", "&6" + currencyManager.getCurrency(p));
+					scoreboard.setSuffix("coins", "&6" + data.coins);
 
 					p.sendPlayerListFooter(toComponent("&7------------------\n" + "&7Players: &6"
 							+ Bukkit.getOnlinePlayers().size() + "&7/&6" + Bukkit.getMaxPlayers()));
 
-					PlayerData data = playerManager.getPlayerData(p);
-					OnlinePlayerData plrData = OnlinePlayerData.getPlayer(p);
-					if (plrData == null)
-						plrData = OnlinePlayerData.addPlayer(p);
-
-					p.sendActionBar(toComponent("&cHealth ♥: " + (int) plrData.getHealth() + "/" + (int) data.health
-							+ "   &9Mana: " + (int) plrData.getMana() + "/" + (int) data.mana));
+					p.sendActionBar(toComponent("&cHealth: " + (int) plrData.getHealth() + "/" + (int) data.health
+							+ "   &7Defense: " + (int) plrData.getDefense() + "   &9Mana: " + (int) plrData.getMana() + "/" + (int) data.mana));
 					p.setFoodLevel(20);
 					p.setSaturation(20);
 				}
@@ -127,13 +125,7 @@ public class KnightmaresReign extends JavaPlugin {
 		}
 
 		try {
-			currencyManager.saveCurrencyFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			playerManager.savePlayerDataFile();
+			playerManager.save();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -155,7 +147,6 @@ public class KnightmaresReign extends JavaPlugin {
 		return from - random.nextInt(Math.abs(to - from));
 	}
 
-	@SuppressWarnings("deprecation")
 	public String toColour(String text) {
 		return ChatColor.translateAlternateColorCodes('&', text);
 	}

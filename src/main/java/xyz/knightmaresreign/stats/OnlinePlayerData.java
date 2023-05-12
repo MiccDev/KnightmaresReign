@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.items.CustomItem;
+import xyz.knightmaresreign.items.data.DefenseData;
 import xyz.knightmaresreign.managers.PlayerData;
 
 public class OnlinePlayerData {
@@ -27,6 +31,39 @@ public class OnlinePlayerData {
 		}
 		
 		return new OnlinePlayerData(plr);
+	}
+	
+	public static double getDefense(Player player) {
+		EntityEquipment equipment = player.getEquipment();
+		ItemStack helmetStack = equipment.getHelmet();
+		ItemStack chestplateStack = equipment.getChestplate();
+		ItemStack leggingsStack = equipment.getLeggings();
+		ItemStack bootsStack = equipment.getBoots();
+		
+		CustomItem helmet = null;
+		CustomItem chesplate = null;
+		CustomItem leggings = null;
+		CustomItem boots = null;
+		if(CustomItem.isCustomItem(helmetStack)) helmet = CustomItem.toItem(helmetStack);
+		if(CustomItem.isCustomItem(chestplateStack)) chesplate = CustomItem.toItem(chestplateStack);
+		if(CustomItem.isCustomItem(leggingsStack)) leggings = CustomItem.toItem(leggingsStack);
+		if(CustomItem.isCustomItem(bootsStack)) boots = CustomItem.toItem(bootsStack);
+		
+		double defense = 0;
+		if(helmet != null && helmet.getDataOfType(DefenseData.class) != null) {
+			defense += helmet.getDataOfType(DefenseData.class).getDefense();
+		}
+		if(chesplate != null && chesplate.getDataOfType(DefenseData.class) != null) {
+			defense += chesplate.getDataOfType(DefenseData.class).getDefense();
+		}
+		if(leggings != null && leggings.getDataOfType(DefenseData.class) != null) {
+			defense += leggings.getDataOfType(DefenseData.class).getDefense();
+		}
+		if(boots != null && boots.getDataOfType(DefenseData.class) != null) {
+			defense += boots.getDataOfType(DefenseData.class).getDefense();
+		}
+		
+		return defense;
 	}
 
 	private Player plr;
@@ -49,12 +86,12 @@ public class OnlinePlayerData {
 	public OnlinePlayerData(Player plr) {
 		KnightmaresReign plugin = KnightmaresReign.getInstance();
 		this.plr = plr;
-		this.plrData = plugin.playerManager.getPlayerData(plr);
+		this.plrData = plugin.playerManager.get(plr);
 		this.health = Statistic.HEALTH.defaultValue;
 		this.mana = Statistic.MANA.defaultValue;
 		
 		this.strength = Statistic.MANA.defaultValue;
-		this.defense = Statistic.HEALTH.defaultValue;
+		this.defense = OnlinePlayerData.getDefense(plr);
 
 		tick = new BukkitRunnable() {
 			int ticks = 0;
@@ -72,7 +109,7 @@ public class OnlinePlayerData {
 			
 			private void tryRegenMana() {
 				if((ticks - 3) % 2 == 0) {
-					addMana(5);
+					addMana(3);
 				}
 			}
 			
@@ -96,7 +133,7 @@ public class OnlinePlayerData {
 		}
 		return this.health;
 	}
-
+	
 	public void revive() {
 		health = plrData.health;
 		mana = plrData.mana;
@@ -136,6 +173,15 @@ public class OnlinePlayerData {
 
 	public double getHealth() {
 		return this.health;
+	}
+	
+	public double setDefense(double defense) {
+		this.defense = defense;
+		return this.defense;
+	}
+	
+	public double getDefense() {
+		return this.defense;
 	}
 
 	public double setMana(double mana) {

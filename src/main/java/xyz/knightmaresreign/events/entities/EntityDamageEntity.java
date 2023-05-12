@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.items.CustomItem;
-import xyz.knightmaresreign.items.data.ItemData;
 import xyz.knightmaresreign.items.data.WeaponData;
 import xyz.knightmaresreign.stats.OnlinePlayerData;
 
@@ -73,9 +72,8 @@ public class EntityDamageEntity extends CustomEvent {
 	public WeaponData getWeaponData(ItemStack item) {
 		if(!CustomItem.isCustomItem(item)) return null;
 		CustomItem customItem = CustomItem.toItem(item);
-		ItemData data = customItem.getData();
-		if(!(data instanceof WeaponData)) return null;
-		return (WeaponData) data;
+		if(customItem.getDataOfType(WeaponData.class) == null) return null;
+		return customItem.getDataOfType(WeaponData.class);
 	}
 
 }

@@ -1,9 +1,7 @@
 package xyz.knightmaresreign.menus.shop;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -13,12 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import xyz.knightmaresreign.menus.Menu;
 import xyz.knightmaresreign.menus.MenuItem;
 import xyz.knightmaresreign.menus.MenuManager;
+import xyz.knightmaresreign.utils.PlayerRunnable;
 
 public class Shop extends Menu {
-
-	public static int toInventoryPosition(int x, int y) {
-		return y * 9 + x;
-	}
 	
     private HashMap<Integer, ShopMenu> pages = new HashMap<>();
     private HashMap<Integer, MenuItem> PageIcons = new HashMap<>();
@@ -36,12 +31,12 @@ public class Shop extends Menu {
         return pages.get(openPage).getInventory();
     }
 
-    public void addItem(Integer page, ItemStack itemStack, Integer slot, @Nullable Runnable clickcallback, Integer cost) {
-        pages.get(page).addItem(itemStack, slot + 9, clickcallback, cost);
+    public void addItem(Integer page, ItemStack itemStack, Integer slot, @Nullable PlayerRunnable clickcallback, Integer cost) {
+        pages.get(page).addItem(itemStack, slot, clickcallback, cost);
     }
 
     public void addNextPageIcon(Integer slot, ItemStack itemStack) {
-        PageIcons.put(slot, new MenuItem(itemStack, slot, () -> {
+        PageIcons.put(slot, new MenuItem(itemStack, slot, (Player player) -> {
             Integer nextpage = openPage + 1;
             if (pages.containsKey(nextpage)){
                 openPage(nextpage);
@@ -53,7 +48,7 @@ public class Shop extends Menu {
     }
 
     public void addPreviousPageIcon(Integer slot, ItemStack itemStack) {
-        PageIcons.put(slot, new MenuItem(itemStack, slot, () -> {
+        PageIcons.put(slot, new MenuItem(itemStack, slot, (Player player) -> {
             Integer nextpage = openPage - 1;
             if (pages.containsKey(nextpage)){
                 openPage(nextpage);
@@ -65,7 +60,7 @@ public class Shop extends Menu {
     }
 
     public void addPage(Integer page, Integer slot, ItemStack icon, String name) {
-        PageIcons.put(slot, new MenuItem(icon, PageIcons.size(), () -> {
+        PageIcons.put(slot, new MenuItem(icon, PageIcons.size(), (Player player) -> {
             openPage(page);;
         }));
         addPage(page, name);

@@ -1,10 +1,9 @@
 package xyz.knightmaresreign.menus;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import xyz.knightmaresreign.menus.menus.DataMenu;
-
-import java.util.HashMap;
 
 public class MenuManager {
     private static HashMap<Inventory, Menu> OpenMenuList= new HashMap<>();

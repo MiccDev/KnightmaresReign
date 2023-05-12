@@ -1,74 +1,93 @@
 package xyz.knightmaresreign.projectile;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
+import java.util.Objects;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.projectile.data.DamageProjectileData;
+import xyz.knightmaresreign.projectile.data.ProjectileData;
+import xyz.knightmaresreign.sound.SoundData;
 
-import java.util.Objects;
-
-public class Projectile{
-
-    private Vector step;
-    private Integer maxDistance;
+public class Projectile {
+	
+	private Entity caster;
+	private Vector direction;
     private Location originalLocation;
     private Location location;
-    private Particle trailParticle;
-    private Particle collideParticle;
-    private Double damage;
+ 
+    private ProjectileData data;
 
-    public Projectile(Location location, Vector step, Integer tickDelay, Integer stepPerTick, Integer maxDistance, Double damage, Particle trailParticle, Particle collideParticle) {
-        this.trailParticle = trailParticle;
-        this.collideParticle = collideParticle;
-        make(location, step, tickDelay, stepPerTick, maxDistance,damage);
+    public Projectile(Entity caster, Vector direction, Location location, int tickDelay, ProjectileData data) {
+    	this.data = data;
+        make(caster, direction, location, tickDelay);
     }
 
-    public Projectile(Location location, Vector step, Integer tickDelay, Integer stepPerTick, Integer maxDistance, Double damage) {
-        make(location, step, tickDelay, stepPerTick, maxDistance, damage);
-    }
-
-    private void make(Location location, Vector step, Integer tickDelay, Integer stepPerTick, Integer maxDistance, Double damage){
-        this.step = step;
+    private void make(Entity caster, Vector direction, Location location, int tickDelay){
+    	this.caster = caster;
+    	this.direction = direction;
         this.location = location;
         this.originalLocation = location.clone();
-        this.maxDistance = maxDistance;
-        this.damage = damage;
         new BukkitRunnable() {
             @Override
             public void run() {
-                for(int i = 0; i < stepPerTick; i++) {
-                    if (tick()) cancel();
-                }
+            	if (tick()) cancel();
             }
         }.runTaskTimer(KnightmaresReign.getInstance(), 0, tickDelay);
     }
 
     public boolean tick() {
-        location.add(step);
-        if(!Objects.isNull(trailParticle)) location.getWorld().spawnParticle(trailParticle, location, 2);
+        location.add(direction.multiply(data.getSpeed()));
+        if(!Objects.isNull(data.getTrailParticle())) location.getWorld().spawnParticle(data.getTrailParticle(), location, 2);
 
-        for (Entity entity : location.getWorld().getNearbyEntities(location, 1, 1, 1)) {
-            if (entity instanceof LivingEntity && entity.getBoundingBox().contains(location.toVector())) {
-                if(!Objects.isNull(collideParticle)) location.getWorld().spawnParticle(collideParticle, location, 2);
-                ((LivingEntity) entity).damage(damage); // Deal damage to the entity
+        double radius = data instanceof DamageProjectileData ? ((DamageProjectileData) data).getRadius() : 10;
+        
+        BoundingBox bounds = BoundingBox.of(location.toVector(), radius, radius, radius);
+        
+        for (LivingEntity entity : location.getNearbyLivingEntities(radius)) {
+        	if(entity.equals(caster)) continue;
+            if (bounds.overlaps(entity.getBoundingBox())) {
+            	spawnCollisionParticle();
+                if(data instanceof DamageProjectileData) {
+                	entity.damage(((DamageProjectileData) data).getDamage()); // Deal damage to the entity
+                }
+                playImpactSound(location);
                 return true;
             }
         }
 
         if (!location.getWorld().getBlockAt(location).getType().equals(Material.AIR)) {
-            if(!Objects.isNull(collideParticle)) location.getWorld().spawnParticle(collideParticle, location, 2);
+        	spawnCollisionParticle();
+            playImpactSound(location);
             return true;
         }
 
-        if (location.distance(originalLocation) > maxDistance) return true;
+        if (location.distance(originalLocation) > data.getMaxDistance()) return true;
         return false;
     }
+    
+    private void spawnCollisionParticle() {
+    	if(!Objects.isNull(data.getCollideParticle())) location.getWorld().spawnParticle(data.getCollideParticle(), location, 2);
+    }
+    
+    private void playImpactSound(Location location) {
+    	SoundData soundData = data.getSoundData() != null ? data.getSoundData() : SoundData.DEFAULT;
+    	location.getWorld().playSound(location, soundData.getSound(), soundData.getVolume(), soundData.getPitch());
+    }
 
+	public ProjectileData getData() {
+		return data;
+	}
+
+	public Projectile setData(ProjectileData data) {
+		this.data = data;
+		return this;
+	}
 
 }

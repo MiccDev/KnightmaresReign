@@ -12,23 +12,45 @@ import org.bukkit.persistence.PersistentDataType;
 
 import net.kyori.adventure.text.Component;
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.items.data.DefenseData;
+import xyz.knightmaresreign.items.data.GenericData;
 import xyz.knightmaresreign.items.data.ItemData;
+import xyz.knightmaresreign.items.data.ProjectileWeaponData;
 import xyz.knightmaresreign.items.data.WeaponData;
+import xyz.knightmaresreign.projectile.data.DamageProjectileData;
 
 public class CustomItem {
 	public static NamespacedKey ITEM = new NamespacedKey(KnightmaresReign.KNIGHTMARES_REIGN, "item");
 	public static HashMap<String, CustomItem> items = new HashMap<String, CustomItem>();
-	
-	public static CustomItem TEST_SWORD = new CustomItem(Items.TEST_SWORD)
-			.setData(new WeaponData(100).setName("&7Test Sword"));
+
+	public static CustomItem TEST_SWORD = new CustomItem(Items.TEST_SWORD).addData(new WeaponData(100))
+			.addData(new GenericData("Test Sword"));
 	public static CustomItem TEST_MAGIC_WEAPON = new CustomItem(Items.MAGIC_WEAPON)
-			.setData(new WeaponData(50, 10).setName("&7Magic Weapon"));
+			.addData(new ProjectileWeaponData(DamageProjectileData.TEST_MAGIC_WEAPON, 10))
+			.addData(new GenericData("&7Magic Weapon"));
 	public static CustomItem SENOR_BONKERS = new CustomItem(Items.SENOR_BONKERS)
-			.setData(new WeaponData(250000).setName("&o&bSeñor Bonkers"));
-	public static CustomItem DATA_BOOK = new CustomItem(Items.DATA_BOOK)
-			.setData(new ItemData().setName("&eData Book"));
-	
-	
+			.addData(new WeaponData(250000))
+			.addData(new GenericData("&o&bSeñor Bonkers"));
+	public static CustomItem DATA_BOOK = new CustomItem(Items.DATA_BOOK).addData(new GenericData("&eData Book"));
+
+	/*
+	 * ######################################### SPAWN AREA
+	 * #########################################
+	 */
+
+	public static CustomItem PEASANT_HAT = new CustomItem(Items.PEASANT_HAT)
+			.addData(new DefenseData(1))
+			.addData(new GenericData("&fPeasant Hat"));
+	public static CustomItem PEASANT_SHIRT = new CustomItem(Items.PEASANT_SHIRT)
+			.addData(new DefenseData(2))
+			.addData(new GenericData("&fPeasant Shirt"));
+	public static CustomItem PEASANT_PANTS = new CustomItem(Items.PEASANT_PANTS)
+			.addData(new DefenseData(2))
+			.addData(new GenericData("&fPeasant Pants"));
+	public static CustomItem PEASANT_SHOES = new CustomItem(Items.PEASANT_SHOES)
+			.addData(new DefenseData(1))
+			.addData(new GenericData("&fPeasant Shoes"));
+
 	public static boolean isCustomItem(ItemStack item) {
 		if (item == null)
 			return false;
@@ -62,12 +84,13 @@ public class CustomItem {
 	}
 
 	private Items type;
-	private ItemData data;
+	private List<ItemData> data;
 
 	public CustomItem(Items type) {
 		super();
 		this.type = type;
-		this.data = type.getData();
+		this.data = new ArrayList<ItemData>();
+		data.add(type.getData());
 		items.put(type.getKey().getKey(), this);
 	}
 
@@ -77,11 +100,16 @@ public class CustomItem {
 		ItemStack item = new ItemStack(type.getMaterial(), 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.getPersistentDataContainer().set(CustomItem.ITEM, PersistentDataType.STRING, type.getKey().getKey());
-		meta.displayName(plugin.toComponent(data.getName()));
+		if(getDataOfType(GenericData.class) != null)
+			meta.displayName(plugin.toComponent(getDataOfType(GenericData.class).getName()));
 
 		List<Component> components = new ArrayList<Component>();
-		if (data instanceof WeaponData)
-			components.add(plugin.toComponent("&2" + (int) ((WeaponData) data).getDamage() + " attack damage."));
+		if (getDataOfType(WeaponData.class) != null)
+			components.add(
+					plugin.toComponent("&2" + (int) getDataOfType(WeaponData.class).getDamage() + " attack damage."));
+		if (getDataOfType(DefenseData.class) != null)
+			components
+					.add(plugin.toComponent("&2" + (int) getDataOfType(DefenseData.class).getDefense() + " defense."));
 		meta.lore(components);
 
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS,
@@ -97,22 +125,34 @@ public class CustomItem {
 		return type;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T extends ItemData> T getDataOfType(Class<? extends T> klass) {
+		ItemData a = this.data.stream().filter((data) -> klass.isAssignableFrom(data.getClass())).findAny()
+				.orElse(null);
+		return (T) a;
+	}
+
 	public CustomItem setType(Items type) {
 		this.type = type;
 		return this;
 	}
 
-	public ItemData getData() {
+	public List<ItemData> getData() {
 		return data;
 	}
 
-	public CustomItem setData(ItemData data) {
+	public CustomItem addData(ItemData data) {
+		this.data.add(data);
+		return this;
+	}
+
+	public CustomItem setData(List<ItemData> data) {
 		this.data = data;
 		return this;
 	}
 
 	public static HashMap<String, CustomItem> getHashMap() {
-		//Added so can be Visualised
+		// Added so can be Visualised
 		return items;
 	}
 

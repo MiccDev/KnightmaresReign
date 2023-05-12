@@ -11,8 +11,16 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import net.kyori.adventure.text.Component;
+import xyz.knightmaresreign.utils.PlayerRunnable;
 
 public class Menu {
+	public static int toInventoryPosition(int x, int y) {
+		return y * 9 + x;
+	}
+	
+	public static final int PAGE_1 = 0;
+	public static final int PAGE_2 = 1;
+	
     private final Inventory inventory;
     @Nullable
     protected Player player;
@@ -56,7 +64,7 @@ public class Menu {
         return inventory;
     }
 
-    public void addItem(ItemStack itemStack, Integer slot, @Nullable Runnable clickcallback) {
+    public void addItem(ItemStack itemStack, Integer slot, @Nullable PlayerRunnable clickcallback) {
         MenuItem menuItem = new MenuItem(itemStack, slot, clickcallback);
         getInventory().setItem(slot, menuItem.getItemStack());
         menuItems.put(slot, menuItem);

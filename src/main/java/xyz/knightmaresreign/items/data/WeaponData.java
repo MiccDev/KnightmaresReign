@@ -3,8 +3,8 @@ package xyz.knightmaresreign.items.data;
 import xyz.knightmaresreign.items.Items;
 
 public class WeaponData extends ItemData {
-	private double damage;
-	private double manaCost;
+	private double damage = 1;
+	private double manaCost = 10;
 
 	public WeaponData(double damage) {
 		this(Items.NONE, damage, 0);

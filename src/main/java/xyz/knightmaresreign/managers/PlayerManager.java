@@ -1,82 +1,45 @@
 package xyz.knightmaresreign.managers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
 import java.util.UUID;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import xyz.knightmaresreign.KnightmaresReign;
-
-public class PlayerManager {
-
-	private HashMap<UUID, PlayerData> data = new HashMap<UUID, PlayerData>();
-	
-	public KnightmaresReign plugin;
-	
+public class PlayerManager extends Manager<PlayerData> {
 	public PlayerManager() {
-		plugin = KnightmaresReign.getInstance();
+		super("player", new PlayerData());
 	}
 	
-	public void savePlayerDataFile() throws FileNotFoundException, IOException {
-		for(OfflinePlayer p : Bukkit.getOfflinePlayers()) {
-			File file = new File(plugin.getDataFolder() + "/player-data.dat");
-			ObjectOutputStream output = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
-			
-			UUID uuid = p.getUniqueId();
-			
-			if(data.get(uuid) != null) {
-				data.put(uuid, data.get(uuid));
-			}
-			
-			try {
-				output.writeObject(data);
-				output.flush();
-				output.close();
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void loadPlayerDataFile() throws FileNotFoundException, IOException, ClassNotFoundException {
-		File file = new File(plugin.getDataFolder() + "/player-data.dat");
-		
-		if(file != null) {
-			ObjectInputStream input = new ObjectInputStream(new GZIPInputStream(new FileInputStream(file)));
-			Object readObject = input.readObject();
-			input.close();
-			
-			if(!(readObject instanceof HashMap))
-				throw new IOException("Data is not hashmap");
-			
-			data = (HashMap<UUID, PlayerData>) readObject;
-			for(UUID key : data.keySet()) {
-				data.put(key, data.get(key));
-			}
-		}
-	}
-	
-	public void setPlayerData(OfflinePlayer p, PlayerData d) {
+	public void addCurrency(OfflinePlayer p, int amount) {
 		UUID uuid = p.getUniqueId();
 		if(data.get(uuid) == null) data.put(uuid, new PlayerData());
-		data.put(uuid, d);
+		data.get(uuid).coins += amount;
 	}
 	
-	public PlayerData getPlayerData(OfflinePlayer p) {
+	public void removeCurrency(OfflinePlayer p, int amount) {
 		UUID uuid = p.getUniqueId();
 		if(data.get(uuid) == null) data.put(uuid, new PlayerData());
-		return data.get(uuid);
+		data.get(uuid).coins -= amount;
 	}
 	
+	public void setCurrency(OfflinePlayer p, int amount) {
+		UUID uuid = p.getUniqueId();
+		data.get(uuid).coins = amount;
+	}
+	
+	public int getCurrency(OfflinePlayer p) {
+		UUID uuid = p.getUniqueId();
+		if(data.get(uuid) == null) data.put(uuid, new PlayerData());
+		return data.get(uuid).coins;
+	}
+
+	public boolean hasCurrency(OfflinePlayer p, int amount) {
+		return getCurrency(p) >= amount;
+	}
+	
+	public void interactedWith(OfflinePlayer p, String name) {
+		UUID uuid = p.getUniqueId();
+		if(data.get(uuid) == null) data.put(uuid, new PlayerData());
+		PlayerData d = data.get(uuid);
+		d.npcInteractions.put(name, d.npcInteractions.get(name) + 1);
+	}
 }

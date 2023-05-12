@@ -52,7 +52,7 @@ public class Dialog {
 	public void sendRandomMessageById(Player player, String id) {
 		List<String> messages = this.messages.get(id);
 		if(messages == null) return;
-		int index = KnightmaresReign.getInstance().getRandom(0, messages.size() - 1);
+		int index = KnightmaresReign.getInstance().getRandom(0, messages.size());
 		String message = messages.get(index);
 		
 		sendMessage(player, message);
