@@ -20,8 +20,8 @@ public class WeaponShop extends Shop {
 			player.getInventory().addItem(CustomItem.TEST_MAGIC_WEAPON.getItem());
 		}, 10);
 		
-		this.addNextPageIcon(Menu.toInventoryPosition(0, 3), MenuItem.makeItemStack(Material.ARROW, "Next Page", new String[]{}));
-        this.addPreviousPageIcon(Menu.toInventoryPosition(8, 3), MenuItem.makeItemStack(Material.ARROW, "Previous Page", new String[]{}));
+		this.addNextPageIcon(Menu.toInventoryPosition(8, 3), MenuItem.makeItemStack(Material.ARROW, "Next Page", new String[]{}));
+        this.addPreviousPageIcon(Menu.toInventoryPosition(0, 3), MenuItem.makeItemStack(Material.ARROW, "Previous Page", new String[]{}));
         this.addItem(MenuItem.makeItemStack(Material.BARRIER, "Close", new String[] {}), Menu.toInventoryPosition(4, 3), (Player plr) -> {
         	plr.closeInventory();
         });
