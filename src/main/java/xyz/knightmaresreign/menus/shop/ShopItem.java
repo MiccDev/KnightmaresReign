@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.kyori.adventure.text.Component;
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.managers.PlayerData;
 import xyz.knightmaresreign.menus.MenuItem;
 import xyz.knightmaresreign.utils.PlayerRunnable;
 
@@ -20,7 +21,7 @@ public class ShopItem extends MenuItem {
         super(itemStack, slot, clickcallback);
         ItemMeta meta = itemStack.getItemMeta();
         List<Component> lore = meta.lore();
-        lore.add(Component.text("Cost: " + String.valueOf(cost)));
+        lore.add(KnightmaresReign.getInstance().toComponent("&r&7Cost: &6" + String.valueOf(cost)));
         meta.lore(lore);
         itemStack.setItemMeta(meta);
 
@@ -28,8 +29,10 @@ public class ShopItem extends MenuItem {
     }
 
     public void Click(Player player) {
-        if(!KnightmaresReign.getInstance().playerManager.hasCurrency(player, cost)) return;
-        KnightmaresReign.getInstance().playerManager.removeCurrency(player, cost);
+    	KnightmaresReign plugin = KnightmaresReign.getInstance();
+    	PlayerData data = plugin.playerManager.get(player);
+        if(!data.hasCurrency(cost)) return;
+        data.removeCurrency(cost);
         super.Click(player);
     }
 

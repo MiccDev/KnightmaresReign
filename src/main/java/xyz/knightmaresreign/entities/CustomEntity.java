@@ -1,6 +1,8 @@
 package xyz.knightmaresreign.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -9,7 +11,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import net.minecraft.world.entity.Entity;
 import xyz.knightmaresreign.KnightmaresReign;
+import xyz.knightmaresreign.entities.data.DeathData;
 import xyz.knightmaresreign.entities.data.EntityData;
+import xyz.knightmaresreign.entities.data.GenericEntityData;
 import xyz.knightmaresreign.entities.spawn.Cow;
 
 public class CustomEntity {
@@ -19,7 +23,8 @@ public class CustomEntity {
 //	public static CustomEntity TEST_BOI = new CustomEntity(Entities.TEST_BOI, TestBoi.class)
 //			.setData(new EntityData().setName("&6Test Boi"));
 	public static CustomEntity COW = new CustomEntity(Entities.COW, Cow.class)
-			.setData(new EntityData().setName("Cow"));
+			.addData(new GenericEntityData("&fCow"))
+			.addData(new DeathData(1, 5));
 
 	public static boolean isCustomEntity(LivingEntity entity) {
 		if (entity == null)
@@ -48,13 +53,14 @@ public class CustomEntity {
 	}
 
 	private Entities type;
-	private EntityData data;
+	private List<EntityData> data;
 	private Class<? extends Entity> entity;
 
 	public CustomEntity(Entities type, Class<? extends Entity> entity) {
 		this.type = type;
-		this.data = type.getData();
+		this.data = new ArrayList<EntityData>();
 		this.entity = entity;
+		addData(type.getData());
 		entities.put(type.getKey().getKey(), this);
 	}
 
@@ -67,7 +73,9 @@ public class CustomEntity {
 		}
 		if (ent == null)
 			return null;
-		ent.b(KnightmaresReign.getInstance().toMcComponent(data.getName()));
+		ent.getBukkitEntity().getPersistentDataContainer().set(CustomEntity.ENTITY, PersistentDataType.STRING, type.getKey().getKey());
+		if(getDataOfType(GenericEntityData.class) != null)
+			ent.b(KnightmaresReign.getInstance().toMcComponent(getDataOfType(GenericEntityData.class).getName()));
 		ent.n(true);
 		return ent;
 	}
@@ -81,13 +89,20 @@ public class CustomEntity {
 		return this;
 	}
 
-	public EntityData getData() {
+	public List<EntityData> getData() {
 		return data;
 	}
 
-	public CustomEntity setData(EntityData data) {
-		this.data = data;
+	public CustomEntity addData(EntityData data) {
+		this.data.add(data);
 		return this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends EntityData> T getDataOfType(Class<? extends T> klass) {
+		EntityData a = this.data.stream().filter((data) -> klass.isAssignableFrom(data.getClass())).findAny()
+				.orElse(null);
+		return (T) a;
 	}
 
 	public static HashMap<String, CustomEntity> getHashMap() {

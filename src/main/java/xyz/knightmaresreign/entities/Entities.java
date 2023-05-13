@@ -11,7 +11,8 @@ public enum Entities {
 
 	NONE("none"),
 	TEST_BOI("test_boi", EntityTypes.aL),
-	COW("cow", EntityTypes.t);
+	COW("cow", EntityTypes.t),
+	BEE("bee", EntityTypes.h);
 	
 	private final NamespacedKey key;
 	private final EntityData data;

@@ -78,6 +78,7 @@ public class OnlinePlayerData {
 
 	private boolean dead = false;
 	
+	private boolean canBeDamaged = true;
 	private boolean canRegen = true;
 	private boolean canManaRegen = true;
 	
@@ -148,16 +149,32 @@ public class OnlinePlayerData {
 		dead = false;
 		return this.health;
 	}
-
+	
 	public double damage(double amount) {
+		return damage(amount, 1);
+	}
+
+	public double damage(double amount, int iFrames) {
 		double damage = amount * amount / (amount + defense) * 2.5;
 		
-		this.health -= damage;
+		if(canBeDamaged) {
+			this.health -= damage;
+		}
 		canRegen = false;
+		canBeDamaged = false;
 		if (this.health <= 0 && !dead) {
 			health = 0;
 			dead = true;
 			plr.setHealth(0);
+		}
+		
+		if(!canBeDamaged) {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					canBeDamaged = true;
+				}
+			}.runTaskLater(KnightmaresReign.getInstance(), iFrames);
 		}
 		
 		if(!canRegen) {

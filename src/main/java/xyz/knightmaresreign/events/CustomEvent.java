@@ -13,7 +13,6 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.events.entities.EntityDamage;
-import xyz.knightmaresreign.events.entities.EntityDamageEntity;
 import xyz.knightmaresreign.events.entities.EntityDeath;
 import xyz.knightmaresreign.events.entities.PlayerInteractEntity;
 import xyz.knightmaresreign.events.gui.MenuListener;
@@ -62,7 +61,6 @@ public class CustomEvent implements Listener {
 		
 		new EntityDamage();
 		new EntityDeath();
-		new EntityDamageEntity();
 
 		new MenuListener();
 		new PlayerInteractEntity();

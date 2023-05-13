@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import xyz.knightmaresreign.menus.MenuManager;
 import xyz.knightmaresreign.menus.shop.npcs.ArmourShop;
+import xyz.knightmaresreign.menus.shop.npcs.MerchantShop;
 import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
 
 public class NPCManager {
@@ -56,6 +57,18 @@ public class NPCManager {
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
 				MenuManager.OpenMenu(new WeaponShop(player), player);
+			});
+	
+	public static NPC KADEN = new NPC("&2Kaden")
+			.setLocation(new Location(Bukkit.getWorld("openworld"), 59.5, 54, 37.5))
+			.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTYwNjY4ODU4MDY3NiwKICAicHJvZmlsZUlkIiA6ICI3ZGEyYWIzYTkzY2E0OGVlODMwNDhhZmMzYjgwZTY4ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJHb2xkYXBmZWwiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjdmNjgxNTAxMjdkMDNiYTk3NjAyZTIwNzc3ODViMjJmMjI1ZDY4YWRiMzczNjhlNDc4ZDUyMDRlOGFiNjI3NSIKICAgIH0KICB9Cn0=")
+			.setSignature("V1VSP+9kcxc0DvjJcSRJS91yKmjKQfKbcXFsghASgMvbjKJkpEyphFe3KXaZw38aW+3Wk1qdD3MddC6YuJy2JvBd9guediEXFDpASbGu2NsfSS+6lR1iaBXCZhxdqnDRPM9Er9lLjbNsWX+6xw6xP2HM91ua8L/sbaJ1SmNSK/4hwT9YbxYf8aaGbFBzs51XViNXc4hz43f3194NntIO8mlG8G4OqbSGLU7v2Dbs1/riY7VZQ5WpuxFGEsFMkYYLhswZVvQeBNXCg8Vw67PO7MLj5UVEurWJ/JCRzvZGgDjnAHA7q2/XRRmXJbSysg7SI5rjwjskROM0yGkJinmTDVzHfONqqYFNOSV4wRhycDFV4OkVhU7xCyxqLnlPrb/BjMhp2TifTaJaKU4bVD075fc50Q4em4/0RwXad5maqO9sPEk4AyH0krtTtiMlZIio1Cp2ICh0io6TTiUE9f7U6JLuJH7o2VesiFO6xh43J/YXCdYE4bymg4Ydy7eTuWTomYjgnZEnS7dBstQUmmbZySxV3H41OuRiWWhooS3BceC4yzUDWkvSP2NoMmcS6YNBv5xUSJxiSnN7CN3qbm810Tgyu9op8tgDgNVPQfTrF6jUz0T/eQomRtH5llPVZm7hjC+qYemi8w5XID312rQ4ASOX0RifbFtvMrzdHE8NwPQ=")
+			.setMessagesId("welcome-messages", Arrays.asList(
+					"Hello traveler, you've come to the right place if you are in desperate need of care."
+			))
+			.setClick((NPC npc, Player player) -> {
+				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+				MenuManager.OpenMenu(new MerchantShop(player), player);
 			});
 //	public static NPC GEO = new NPC("Geo")
 //			.setLocation(new Location(Bukkit.getWorld("openworld"), 61, 54, 31))

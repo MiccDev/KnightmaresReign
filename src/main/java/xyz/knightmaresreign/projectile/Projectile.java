@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
@@ -14,6 +15,7 @@ import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.projectile.data.DamageProjectileData;
 import xyz.knightmaresreign.projectile.data.ProjectileData;
 import xyz.knightmaresreign.sound.SoundData;
+import xyz.knightmaresreign.stats.OnlinePlayerData;
 
 public class Projectile {
 	
@@ -46,7 +48,7 @@ public class Projectile {
         location.add(direction.multiply(data.getSpeed()));
         if(!Objects.isNull(data.getTrailParticle())) location.getWorld().spawnParticle(data.getTrailParticle(), location, 2);
 
-        double radius = data instanceof DamageProjectileData ? ((DamageProjectileData) data).getRadius() : 10;
+        double radius = data instanceof DamageProjectileData ? ((DamageProjectileData) data).getRadius() : 2.5;
         
         BoundingBox bounds = BoundingBox.of(location.toVector(), radius, radius, radius);
         
@@ -55,7 +57,14 @@ public class Projectile {
             if (bounds.overlaps(entity.getBoundingBox())) {
             	spawnCollisionParticle();
                 if(data instanceof DamageProjectileData) {
-                	entity.damage(((DamageProjectileData) data).getDamage()); // Deal damage to the entity
+                	if(entity instanceof Player) {
+                		OnlinePlayerData plrData = OnlinePlayerData.getPlayer((Player) entity);
+                		if(plrData == null)
+                			plrData = OnlinePlayerData.addPlayer((Player) entity);
+                		plrData.damage(((DamageProjectileData) data).getDamage(), 10);
+                	} else {
+                		entity.damage(((DamageProjectileData) data).getDamage()); // Deal damage to the entity
+                	}
                 }
                 playImpactSound(location);
                 return true;
