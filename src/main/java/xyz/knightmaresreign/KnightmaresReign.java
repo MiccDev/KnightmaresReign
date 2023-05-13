@@ -109,6 +109,10 @@ public class KnightmaresReign extends JavaPlugin {
 							+ "   &7Defense: " + (int) plrData.getDefense() + "   &9Mana: " + (int) plrData.getMana() + "/" + (int) data.mana));
 					p.setFoodLevel(20);
 					p.setSaturation(20);
+					
+					double xpToNextLevel = data.getXpToNextLevel();
+					p.setExp((float) (data.xp / xpToNextLevel));
+					p.setLevel(data.level);
 				}
 			}
 		}.runTaskTimer(this, 0L, 5L);

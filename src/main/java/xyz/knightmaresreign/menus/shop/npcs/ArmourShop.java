@@ -29,11 +29,24 @@ public class ArmourShop extends Shop {
 			player.getInventory().addItem(CustomItem.PEASANT_SHOES.getItem());
 		}, 10);
 		
+		this.addItem(PAGE_1, CustomItem.WAR_HELMET.getItem(), Menu.toInventoryPosition(0, 1), (Player plr) -> {
+			player.getInventory().addItem(CustomItem.WAR_HELMET.getItem());
+		}, 25);
+		this.addItem(PAGE_1, CustomItem.WAR_CHESTPLATE.getItem(), Menu.toInventoryPosition(1, 1), (Player plr) -> {
+			player.getInventory().addItem(CustomItem.WAR_CHESTPLATE.getItem());
+		}, 25);
+		this.addItem(PAGE_1, CustomItem.WAR_LEGGINGS.getItem(), Menu.toInventoryPosition(2, 1), (Player plr) -> {
+			player.getInventory().addItem(CustomItem.WAR_LEGGINGS.getItem());
+		}, 25);
+		this.addItem(PAGE_1, CustomItem.WAR_BOOTS.getItem(), Menu.toInventoryPosition(3, 1), (Player plr) -> {
+			player.getInventory().addItem(CustomItem.WAR_BOOTS.getItem());
+		}, 25);
+
 		this.addNextPageIcon(Menu.toInventoryPosition(8, 3), MenuItem.makeItemStack(Material.ARROW, "Next Page", new String[]{}));
         this.addPreviousPageIcon(Menu.toInventoryPosition(0, 3), MenuItem.makeItemStack(Material.ARROW, "Previous Page", new String[]{}));
-        this.addItem(MenuItem.makeItemStack(Material.BARRIER, "Close", new String[] {}), Menu.toInventoryPosition(4, 3), (Player plr) -> {
-        	plr.closeInventory();
-        });
+//        this.addItem(MenuItem.makeItemStack(Material.BARRIER, "Close", new String[] {}), Menu.toInventoryPosition(4, 3), (Player plr) -> {
+//        	plr.closeInventory(Reason.PLUGIN);
+//        });
 	}
 	
 }

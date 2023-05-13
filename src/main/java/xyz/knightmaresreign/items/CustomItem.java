@@ -5,16 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionData;
 
 import net.kyori.adventure.text.Component;
 import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.items.data.DefenseData;
+import xyz.knightmaresreign.items.data.EnchantedData;
 import xyz.knightmaresreign.items.data.GenericData;
 import xyz.knightmaresreign.items.data.ItemData;
+import xyz.knightmaresreign.items.data.PotionMaterialData;
 import xyz.knightmaresreign.items.data.ProjectileWeaponData;
 import xyz.knightmaresreign.items.data.WeaponData;
 import xyz.knightmaresreign.projectile.data.DamageProjectileData;
@@ -50,6 +55,43 @@ public class CustomItem {
 	public static CustomItem PEASANT_SHOES = new CustomItem(Items.PEASANT_SHOES)
 			.addData(new DefenseData(1))
 			.addData(new GenericData("&fPeasant Shoes"));
+	public static CustomItem PEASANTS_SWORD = new CustomItem(Items.PEASANTS_SWORD)
+			.addData(new WeaponData(1))
+			.addData(new GenericData("&fPeasant Sword"));
+	public static CustomItem PEASANTS_HATCHET = new CustomItem(Items.PEASANTS_HATCHET)
+			.addData(new WeaponData(3))
+			.addData(new GenericData("&fPeasant Hatchet"));
+	
+	public static CustomItem WAR_HELMET = new CustomItem(Items.WAR_HELMET)
+			.addData(new DefenseData(2))
+			.addData(new GenericData("&fWar Helmet"));
+	public static CustomItem WAR_CHESTPLATE = new CustomItem(Items.WAR_CHESTPLATE)
+			.addData(new DefenseData(3))
+			.addData(new GenericData("&fWar Chestplate"));
+	public static CustomItem WAR_LEGGINGS = new CustomItem(Items.WAR_LEGGINGS)
+			.addData(new DefenseData(2))
+			.addData(new GenericData("&fWar Leggings"));
+	public static CustomItem WAR_BOOTS = new CustomItem(Items.WAR_BOOTS)
+			.addData(new DefenseData(2))
+			.addData(new GenericData("&fWar Boots"));
+	public static CustomItem WAR_LONGSWORD = new CustomItem(Items.WAR_LONGSWORD)
+			.addData(new WeaponData(4))
+			.addData(new GenericData("&fWar Longsword"));
+	public static CustomItem WAR_HATCHET = new CustomItem(Items.WAR_HATCHET)
+			.addData(new WeaponData(5))
+			.addData(new GenericData("&fWar Hatchet"));
+	
+	public static CustomItem FARMERS_SICKLE = new CustomItem(Items.FARMERS_SICKLE)
+			.addData(new WeaponData(6))
+			.addData(new GenericData("&fFarmers Sickle"));
+	
+	public static CustomItem SMALL_HEALING_POTION = new CustomItem(Items.SMALL_HEALING_POTION)
+			.addData(new GenericData("&fSmall Healing Potion"));
+	public static CustomItem SMALL_MANA_POTION = new CustomItem(Items.SMALL_MANA_POTION)
+			.addData(new GenericData("&fSmall Mana Potion"));
+	public static CustomItem MAGIC_LILY = new CustomItem(Items.MAGIC_LILY)
+			.addData(new GenericData("&bMagic Lily"))
+			.addData(new EnchantedData());
 
 	public static boolean isCustomItem(ItemStack item) {
 		if (item == null)
@@ -104,16 +146,23 @@ public class CustomItem {
 			meta.displayName(plugin.toComponent(getDataOfType(GenericData.class).getName()));
 
 		List<Component> components = new ArrayList<Component>();
-		if (getDataOfType(WeaponData.class) != null)
+		if (getDataOfType(ProjectileWeaponData.class) != null)
+			components.add(
+					plugin.toComponent("&2" + (int) getDataOfType(ProjectileWeaponData.class).getDamage() + " projectile damage."));
+		else if (getDataOfType(WeaponData.class) != null)
 			components.add(
 					plugin.toComponent("&2" + (int) getDataOfType(WeaponData.class).getDamage() + " attack damage."));
 		if (getDataOfType(DefenseData.class) != null)
 			components
 					.add(plugin.toComponent("&2" + (int) getDataOfType(DefenseData.class).getDefense() + " defense."));
+		if(getDataOfType(EnchantedData.class) != null)
+			meta.addEnchant(Enchantment.MENDING, 0, true);
+		if(getDataOfType(PotionMaterialData.class) != null)
+			((PotionMeta) meta).setBasePotionData(new PotionData(getDataOfType(PotionMaterialData.class).getPotionType()));
 		meta.lore(components);
 
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS,
-				ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
+				ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ARMOR_TRIM);
 
 		meta.setUnbreakable(true);
 

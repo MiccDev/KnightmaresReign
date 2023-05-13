@@ -17,14 +17,15 @@ public class PlayerInteract extends CustomEvent {
 
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent event) {
+		if(!event.getAction().isRightClick()) return;
 		Player player = event.getPlayer();
 		ItemStack itemStack = player.getInventory().getItemInMainHand();
 		if(itemStack == null) return;
 		if(!CustomItem.isCustomItem(itemStack)) return;
 		
 		CustomItem item = CustomItem.toItem(itemStack);
-		if(!(item.getData() instanceof ProjectileWeaponData)) return;
-		ProjectileWeaponData data = (ProjectileWeaponData) item.getData();
+		if(item.getDataOfType(ProjectileWeaponData.class) == null) return;
+		ProjectileWeaponData data = item.getDataOfType(ProjectileWeaponData.class);
 		
 		OnlinePlayerData playerData = OnlinePlayerData.getPlayer(player);
 		double manaCost = getMana(itemStack);
