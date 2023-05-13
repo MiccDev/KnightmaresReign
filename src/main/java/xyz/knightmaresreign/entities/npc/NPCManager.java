@@ -2,6 +2,7 @@ package xyz.knightmaresreign.entities.npc;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,6 +12,8 @@ import xyz.knightmaresreign.menus.MenuManager;
 import xyz.knightmaresreign.menus.shop.npcs.ArmourShop;
 import xyz.knightmaresreign.menus.shop.npcs.MerchantShop;
 import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
+import xyz.knightmaresreign.quests.QuestManager;
+import xyz.knightmaresreign.quests.TestQuest;
 
 public class NPCManager {
 
@@ -42,6 +45,7 @@ public class NPCManager {
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
 				MenuManager.OpenMenu(new ArmourShop(player), player);
+				QuestManager.getOpenQuest(player).npc(npc, player);
 			});
 	public static NPC DEON = new NPC("&6Deon")
 			.setLocation(new Location(Bukkit.getWorld("openworld"), 71.5, 54, 36.5))
@@ -56,6 +60,7 @@ public class NPCManager {
 			))
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+				QuestManager.getOpenQuest(player).npc(npc, player);
 				MenuManager.OpenMenu(new WeaponShop(player), player);
 			});
 	
@@ -68,12 +73,24 @@ public class NPCManager {
 			))
 			.setClick((NPC npc, Player player) -> {
 				npc.getDialog().sendRandomMessageById(player, "welcome-messages");
+				QuestManager.getOpenQuest(player).npc(npc, player);
 				MenuManager.OpenMenu(new MerchantShop(player), player);
 			});
 //	public static NPC GEO = new NPC("Geo")
 //			.setLocation(new Location(Bukkit.getWorld("openworld"), 61, 54, 31))
 //			.setTexture("ewogICJ0aW1lc3RhbXAiIDogMTY4MzQyMzk0NDAxNiwKICAicHJvZmlsZUlkIiA6ICI3YzI2YTAxY2U4NjU0NDkzOTA3NzA2OGQxZTA5ZjE5MiIsCiAgInByb2ZpbGVOYW1lIiA6ICJodG93ZXI4IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzZkOGFlMmVjZjMwMTljOTMxZDI0OTY4ZDkwOGU3NWM1ZDI4YzA2ZWY1NmJlYzkxNWJhMmQ0NWI5NjA2MWE5ZTUiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==")
 //			.setSignature("FpfZLlTcWVI8EJ51YlxUOg1+l/OFSP0qfFMcRAQ+m4bqddNRb/LvWkwLH5oHjJdKIlDC9gsqsx7KmZ493067x3k28iqKQ9yWchMEsuiKE+iSrcpTQdBuYAwgN8Tpqn+E6MVELWZSIBiaR9MMWMczY55PBhYMeNnUQErRNpHhij63FpzLKR9eKWwkhEeXeQPfv3gYOW7aISgsIDdQyTBk/qlzY/dljd/4cYsBJYIExkRyXObN/vCLLJoOQK4o6Qzdg0jEPyGRrOdrCwVAwfCVkHcv+JCczYAX772HaqP/QyS3ZEF6gpiI10q1UtSkJyQyKygwLPXtG0OGiTiT46Yk9KceJSDW2M5y2VNa+d7kc3rrX/YBAckOmUGfQMOPX4RjEj4/3trAmTdFdBeuRC/lAKeGsgFCgjRMQl3QP/vAhpr/pg+cBMOrR+ENipyTAX13Xlmv8RgtK5OmBxaPRa7f1JivLBN/M/9nfWqdGGJWrdvj4Eqcy+3qmNcZU+9uTZ/J1inNIM4VVKefo+UJRFyKud/m1emugkT9dfcDCJIrNldQefv1GHBuqebQzuJn3xVJRdl2v0iCN76cfko9Bo0qJC9afJubQ8jvrWSL6xHAyZvGdV8tzE/SKUwNAiETpj3y1L1bcuF3kIkH7paIscOq/1Fm4uAMFCU/DZReiLRbGyA=");
+
+	public static NPC FORESTER = new NPC("&2Forester302")
+			.setLocation(new Location(Bukkit.getWorld("openworld"), 65.5, 54, 38.5))
+			.setTexture("")
+			.setSignature("V1VSP+9kcxc0DvjJcSRJS91yKmjKQfKbcXFsghASgMvbjKJkpEyphFe3KXaZw38aW+3Wk1qdD3MddC6YuJy2JvBd9guediEXFDpASbGu2NsfSS+6lR1iaBXCZhxdqnDRPM9Er9lLjbNsWX+6xw6xP2HM91ua8L/sbaJ1SmNSK/4hwT9YbxYf8aaGbFBzs51XViNXc4hz43f3194NntIO8mlG8G4OqbSGLU7v2Dbs1/riY7VZQ5WpuxFGEsFMkYYLhswZVvQeBNXCg8Vw67PO7MLj5UVEurWJ/JCRzvZGgDjnAHA7q2/XRRmXJbSysg7SI5rjwjskROM0yGkJinmTDVzHfONqqYFNOSV4wRhycDFV4OkVhU7xCyxqLnlPrb/BjMhp2TifTaJaKU4bVD075fc50Q4em4/0RwXad5maqO9sPEk4AyH0krtTtiMlZIio1Cp2ICh0io6TTiUE9f7U6JLuJH7o2VesiFO6xh43J/YXCdYE4bymg4Ydy7eTuWTomYjgnZEnS7dBstQUmmbZySxV3H41OuRiWWhooS3BceC4yzUDWkvSP2NoMmcS6YNBv5xUSJxiSnN7CN3qbm810Tgyu9op8tgDgNVPQfTrF6jUz0T/eQomRtH5llPVZm7hjC+qYemi8w5XID312rQ4ASOX0RifbFtvMrzdHE8NwPQ=")
+			.setClick((NPC npc, Player player) -> {
+				if(Objects.isNull(QuestManager.getOpenQuest(player))){
+					QuestManager.setOpenQuest(player, QuestManager.TESTQUEST);
+				}
+				QuestManager.getOpenQuest(player).npc(npc, player);
+			});
 
 	public NPCManager() {
 	}
