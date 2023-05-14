@@ -1,6 +1,7 @@
 package xyz.knightmaresreign.quests;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import xyz.knightmaresreign.entities.npc.NPC;
 
 import java.util.HashMap;
@@ -21,7 +22,14 @@ public class Quest {
         return null;
     }
 
+    public void setDefaultState(Player player) {
+        if(!PlayerQuestStates.containsKey(player.getUniqueId())) {
+            PlayerQuestStates.put(player.getUniqueId(), getStartingState());
+        }
+    }
+
 
     public TestQuest.TestQuestState getStartingState() {return null;}
     public void npc(NPC npc, Player player) {}
+    public void event(Event event, Player player) {}
 }

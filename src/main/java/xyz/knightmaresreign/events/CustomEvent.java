@@ -21,6 +21,7 @@ import xyz.knightmaresreign.events.player.PlayerInteract;
 import xyz.knightmaresreign.events.player.PlayerMovement;
 import xyz.knightmaresreign.events.player.PlayerRespawn;
 import xyz.knightmaresreign.events.player.PlayerUseProjectileWeapon;
+import xyz.knightmaresreign.events.quests.Quests;
 import xyz.knightmaresreign.events.traffic.PlayerJoin;
 import xyz.knightmaresreign.events.traffic.PlayerLeave;
 
@@ -66,6 +67,7 @@ public class CustomEvent implements Listener {
 		new PlayerInteractEntity();
 
 		new PlayerUseProjectileWeapon();
+		new Quests();
 	}
 	
 	private KnightmaresReign plugin;
