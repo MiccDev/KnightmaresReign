@@ -2,7 +2,6 @@ package xyz.knightmaresreign.managers;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.entity.Player;
 

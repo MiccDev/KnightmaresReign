@@ -14,6 +14,7 @@ import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.data.DeathData;
 import xyz.knightmaresreign.entities.data.EntityData;
 import xyz.knightmaresreign.entities.data.GenericEntityData;
+import xyz.knightmaresreign.entities.forest.Bee;
 import xyz.knightmaresreign.entities.spawn.Cow;
 
 public class CustomEntity {
@@ -24,6 +25,10 @@ public class CustomEntity {
 //			.setData(new EntityData().setName("&6Test Boi"));
 	public static CustomEntity COW = new CustomEntity(Entities.COW, Cow.class)
 			.addData(new GenericEntityData("&fCow"))
+			.addData(new DeathData(1, 5));
+	
+	public static CustomEntity BEE = new CustomEntity(Entities.BEE, Bee.class)
+			.addData(new GenericEntityData("&fBee"))
 			.addData(new DeathData(1, 5));
 
 	public static boolean isCustomEntity(LivingEntity entity) {

@@ -25,8 +25,7 @@ public class PlayerJoin extends CustomEvent {
 		createTablist(player);
 		createScoreboard(player);
 		
-		if(OnlinePlayerData.getPlayer(player) == null)
-			OnlinePlayerData.addPlayer(player);
+		OnlinePlayerData.addPlayer(player);
 		
 		getPlugin().npcManager.showAllNPCs(player);
 	}
@@ -44,6 +43,7 @@ public class PlayerJoin extends CustomEvent {
 		scoreboard.createScore("rank", "  &e| &7Rank: ");
 		scoreboard.createScore("players", "  &e| &7Players: ");
 		scoreboard.createScore("coins", "  &e| &7Coins: ");
+		scoreboard.createScore("region", "  &e| &7Region: &6");
 		scoreboard.createScore("  ", "  &e&oplay.knightmaresreign.xyz");
 		
 		scoreboard.finalizeScoreboard(player);

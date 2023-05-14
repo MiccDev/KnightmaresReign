@@ -1,13 +1,11 @@
 package xyz.knightmaresreign.quests;
 
 import org.bukkit.entity.Player;
+
 import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.npc.NPC;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.managers.PlayerData;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class TestQuest extends Quest{
 

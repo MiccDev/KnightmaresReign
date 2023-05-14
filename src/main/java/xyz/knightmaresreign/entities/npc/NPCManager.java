@@ -13,7 +13,6 @@ import xyz.knightmaresreign.menus.shop.npcs.ArmourShop;
 import xyz.knightmaresreign.menus.shop.npcs.MerchantShop;
 import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
 import xyz.knightmaresreign.quests.QuestManager;
-import xyz.knightmaresreign.quests.TestQuest;
 
 public class NPCManager {
 
