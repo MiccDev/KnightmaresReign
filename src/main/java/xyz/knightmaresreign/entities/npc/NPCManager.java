@@ -2,7 +2,6 @@ package xyz.knightmaresreign.entities.npc;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,7 +11,6 @@ import xyz.knightmaresreign.menus.MenuManager;
 import xyz.knightmaresreign.menus.shop.npcs.ArmourShop;
 import xyz.knightmaresreign.menus.shop.npcs.MerchantShop;
 import xyz.knightmaresreign.menus.shop.npcs.WeaponShop;
-import xyz.knightmaresreign.quests.Quest;
 import xyz.knightmaresreign.quests.QuestManager;
 
 public class NPCManager {

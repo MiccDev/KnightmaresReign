@@ -18,7 +18,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.minecraft.network.chat.IChatBaseComponent;
 import xyz.knightmaresreign.commands.CustomCommand;
-import xyz.knightmaresreign.entities.Entities;
+import xyz.knightmaresreign.entities.CustomEntity;
 import xyz.knightmaresreign.entities.npc.NPCManager;
 import xyz.knightmaresreign.entities.spawning.SpawnManager;
 import xyz.knightmaresreign.entities.spawning.SpawnNode;
@@ -79,10 +79,10 @@ public class KnightmaresReign extends JavaPlugin {
 		World world = Bukkit.getWorld("openworld");
 
 		spawnManager = new SpawnManager();
-		SpawnManager.addSpawnNodes(Region.SPAWN, new SpawnNode(new Location(world, 66, 53, 37), 50, 10, Entities.COW));
-		SpawnManager.addSpawnNodes(Region.FOREST, new SpawnNode(new Location(world, 0, 42, -60), 50, 10, Entities.COW),
-				new SpawnNode(new Location(world, -23, 43, -103), 50, 10, Entities.BEE, Entities.COW),
-				new SpawnNode(new Location(world, 106, 57, -117), 50, 10, Entities.COW));
+		SpawnManager.addSpawnNodes(Region.SPAWN, new SpawnNode(new Location(world, 66, 53, 37), 50, secondsToTicks(9f), CustomEntity.COW));
+		SpawnManager.addSpawnNodes(Region.FOREST, new SpawnNode(new Location(world, 0, 42, -60), 50, secondsToTicks(9f), CustomEntity.COW),
+				new SpawnNode(new Location(world, -23, 43, -103), 50, secondsToTicks(8f), CustomEntity.BEE, CustomEntity.COW),
+				new SpawnNode(new Location(world, 106, 57, -117), 50, secondsToTicks(9f), CustomEntity.COW));
 
 		CustomCommand.init();
 		CustomEvent.init(protocolManager);
@@ -148,6 +148,10 @@ public class KnightmaresReign extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public long secondsToTicks(float seconds) {
+		return (long) (seconds * 20L);
 	}
 
 	public boolean isInRegion(Location source, Location bound1, Location bound2) {

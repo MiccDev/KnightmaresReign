@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
@@ -14,6 +15,7 @@ import xyz.knightmaresreign.KnightmaresReign;
 import xyz.knightmaresreign.entities.data.DeathData;
 import xyz.knightmaresreign.entities.data.EntityData;
 import xyz.knightmaresreign.entities.data.GenericEntityData;
+import xyz.knightmaresreign.entities.data.SpawnData;
 import xyz.knightmaresreign.entities.forest.Bee;
 import xyz.knightmaresreign.entities.spawn.Cow;
 
@@ -25,10 +27,12 @@ public class CustomEntity {
 //			.setData(new EntityData().setName("&6Test Boi"));
 	public static CustomEntity COW = new CustomEntity(Entities.COW, Cow.class)
 			.addData(new GenericEntityData("&fCow"))
+			.addData(new SpawnData(Material.GRASS_BLOCK))
 			.addData(new DeathData(1, 5));
 	
 	public static CustomEntity BEE = new CustomEntity(Entities.BEE, Bee.class)
 			.addData(new GenericEntityData("&fBee"))
+			.addData(new SpawnData(Material.GRASS_BLOCK, Material.BEE_NEST, Material.BEEHIVE))
 			.addData(new DeathData(1, 5));
 
 	public static boolean isCustomEntity(LivingEntity entity) {

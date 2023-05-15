@@ -2,7 +2,7 @@ package xyz.knightmaresreign.events.quests;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
+
 import xyz.knightmaresreign.events.CustomEvent;
 import xyz.knightmaresreign.quests.QuestManager;
 

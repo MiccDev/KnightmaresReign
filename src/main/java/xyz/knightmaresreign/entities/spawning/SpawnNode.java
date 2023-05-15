@@ -5,15 +5,15 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import xyz.knightmaresreign.entities.Entities;
+import xyz.knightmaresreign.entities.CustomEntity;
 
 public class SpawnNode {
 	private Location location;
 	private int radius = 10;
-	private List<Entities> spawnable;
+	private List<CustomEntity> spawnable;
 	private long frequency;
 	
-	public SpawnNode(Location location, int radius, long frequency, Entities ...spawnable) {
+	public SpawnNode(Location location, int radius, long frequency, CustomEntity ...spawnable) {
 		this.location = location;
 		this.radius = radius;
 		this.frequency = frequency;
@@ -28,7 +28,7 @@ public class SpawnNode {
 		return radius;
 	}
 
-	public List<Entities> getSpawnable() {
+	public List<CustomEntity> getSpawnable() {
 		return spawnable;
 	}
 
@@ -46,7 +46,7 @@ public class SpawnNode {
 		return this;
 	}
 
-	public SpawnNode setSpawnable(List<Entities> spawnable) {
+	public SpawnNode setSpawnable(List<CustomEntity> spawnable) {
 		this.spawnable = spawnable;
 		return this;
 	}
